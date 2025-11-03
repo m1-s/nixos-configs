@@ -67,17 +67,7 @@ in
 
     ssh = {
       enable = true;
-      matchBlocks = {
-        "*" = {
-          serverAliveInterval = 30;
-        };
-
-        nixcademy = {
-          hostname = "training-machine.nixcademy.com";
-          user = "michael";
-          forwardAgent = true;
-        };
-      };
+      matchBlocks."*".serverAliveInterval = 30;
       extraConfig = ''
         AddKeysToAgent yes
         IdentityFile ~/.ssh/id_ed25519
@@ -107,7 +97,6 @@ in
     nix-tree
     nixos-anywhere
     nixpkgs-fmt
-    path-of-building
     scanmem
     shfmt
     signal-desktop
@@ -123,9 +112,6 @@ in
     websocat
     wget
     cntr
-    winetricks
-    wineWowPackages.stable
-    lutris-free
     firefox
     libreoffice
     unrar
