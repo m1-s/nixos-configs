@@ -66,6 +66,7 @@
 
             deadnix.enable = true;
             deadnix.excludes = [ "hosts/thinkbook-hardware-config.nix" ];
+            yamllint.enable = true;
           };
         };
       };
