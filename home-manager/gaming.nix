@@ -36,5 +36,6 @@
     winetricks
     wineWowPackages.stable
     lutris-free
+    wowup-cf
   ];
 }

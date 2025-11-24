@@ -19,7 +19,6 @@ in
       ndr = "nix-direnv-reload";
       nix-shell = "nix-shell --run zsh";
       fb = "feedback -- ";
-      nv = "neovide &";
       gpb = "git fetch -p && for branch in $(git for-each-ref --format '%(refname) %(upstream:track)' refs/heads | awk '$2 == \"[gone]\" {sub(\"refs/heads/\", \"\", $1); print $1}'); do git branch -D $branch; done";
     };
   };

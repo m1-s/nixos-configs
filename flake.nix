@@ -124,7 +124,6 @@
                   imports = with self.homeManagerModules; [
                     default
                     plasma
-                    neovide
                     chromium
                     gaming
                   ];

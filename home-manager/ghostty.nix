@@ -34,6 +34,7 @@ in
     settings = {
       theme = "sweet";
       custom-shader = "${inputs.ghostty-shaders}/public/shaders/cursor_blaze_tapered.glsl";
+      maximize = true;
     };
   };
 }
