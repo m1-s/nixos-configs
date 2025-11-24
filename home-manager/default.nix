@@ -77,16 +77,19 @@ in
   home.packages = with pkgs; [
     bat
     cachix
+    cntr
     curl
     discord
     duf
     feedback
+    firefox
     git-crypt
     hollywood
     htop
     httpie
     jo
     jq
+    libreoffice
     magic-wormhole
     mtr
     neofetch
@@ -104,15 +107,13 @@ in
     thunderbird
     tig
     tree
+    unrar
     vimgolf
     vimv
     vlc
     vscodium
+    watson
     websocat
     wget
-    cntr
-    firefox
-    libreoffice
-    unrar
   ];
 }
