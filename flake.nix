@@ -18,7 +18,10 @@
     # However, it contains information that is related to my customers such as
     # IP adresses of their servers. Although these are public, I do not want to
     # disclose them.
-    private-config.url = "git+ssh://git@github.com/m1-s/nixos-config-private";
+    private-config = {
+      url = "git+ssh://git@github.com/m1-s/nixos-config-private";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =

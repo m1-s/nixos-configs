@@ -381,12 +381,17 @@
       }
     },
     "private-config": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
       "locked": {
-        "lastModified": 1762137465,
-        "narHash": "sha256-M6fU+cnJXmnG5OrKMkHRA3grzVgvbGHUmNm8lojAtog=",
+        "lastModified": 1764170597,
+        "narHash": "sha256-9mJPID5Ep5MCOusBygNPSPUZTTrKCw3DBa0skbQlL7k=",
         "ref": "refs/heads/main",
-        "rev": "d9fecfa5cab76ea1562bfe4a972b72eb6841cb37",
-        "revCount": 3,
+        "rev": "2a5289aef3085e54c013ec04caee77e1ab7e50f7",
+        "revCount": 4,
         "type": "git",
         "url": "ssh://git@github.com/m1-s/nixos-config-private"
       },
