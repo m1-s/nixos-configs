@@ -14,7 +14,7 @@
   programs.gnupg.agent.enable = true;
 
   services.openssh = {
-    # enable = true;
+    enable = true;
     settings.PasswordAuthentication = false;
   };
 
