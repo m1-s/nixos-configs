@@ -1,8 +1,8 @@
 {
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-    home-manager.url = "github:nix-community/home-manager/release-25.05";
+    home-manager.url = "github:nix-community/home-manager/release-25.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixos-wsl.url = "github:nix-community/nixos-wsl";
     plasma-manager = {
@@ -111,6 +111,7 @@
             ./nixos-modules/kde.nix
             ./nixos-modules/sound.nix
             ./nixos-modules/virtualization.nix
+            ./nixos-modules/miniature-trains.nix
             ./common.nix
             (_: {
               nixpkgs.config.allowUnfree = true;
