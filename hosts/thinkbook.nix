@@ -1,8 +1,13 @@
 {
   imports = [ ./thinkbook-hardware-config.nix ];
   boot = {
-    loader.systemd-boot.enable = true;
-    loader.efi.canTouchEfiVariables = true;
+    loader = {
+      systemd-boot = {
+        enable = true;
+        configurationLimit = 5;
+      };
+      efi.canTouchEfiVariables = true;
+    };
     initrd.luks.devices."luks-e6657e6a-15e8-4274-95dc-abf3814e2d2c".device = "/dev/disk/by-uuid/e6657e6a-15e8-4274-95dc-abf3814e2d2c";
     tmp.cleanOnBoot = true;
   };
