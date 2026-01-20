@@ -9,18 +9,17 @@ in
     ./tmux.nix
     ./ghostty.nix
   ];
-  home = {
-    shellAliases = rec {
-      nrs = "sudo nixos-rebuild switch --flake ${configDir} && exec zsh";
-      nrt = "sudo nixos-rebuild test --flake ${configDir} && exec zsh";
-      nru = "nix flake update --flake ${configDir} && ${nrs}";
-      gacp = "gaa && gcn! && gpf";
-      cat = "bat --paging=never --style=header,grid,header-filesize,header";
-      ndr = "nix-direnv-reload";
-      nix-shell = "nix-shell --run zsh";
-      fb = "feedback -- ";
-      gpb = "git fetch -p && for branch in $(git for-each-ref --format '%(refname) %(upstream:track)' refs/heads | awk '$2 == \"[gone]\" {sub(\"refs/heads/\", \"\", $1); print $1}'); do git branch -D $branch; done";
-    };
+
+  home.shellAliases = rec {
+    nrs = "sudo nixos-rebuild switch --flake ${configDir} && exec zsh";
+    nrt = "sudo nixos-rebuild test --flake ${configDir} && exec zsh";
+    nru = "nix flake update --flake ${configDir} && ${nrs}";
+    gacp = "gaa && gcn! && gpf";
+    cat = "bat --paging=never --style=header,grid,header-filesize,header";
+    ndr = "nix-direnv-reload";
+    nix-shell = "nix-shell --run zsh";
+    fb = "feedback -- ";
+    gpb = "git fetch -p && for branch in $(git for-each-ref --format '%(refname) %(upstream:track)' refs/heads | awk '$2 == \"[gone]\" {sub(\"refs/heads/\", \"\", $1); print $1}'); do git branch -D $branch; done";
   };
 
   programs = {
