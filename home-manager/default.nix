@@ -65,7 +65,15 @@ in
 
     ssh = {
       enable = true;
-      matchBlocks."*".serverAliveInterval = 30;
+      matchBlocks = {
+        "*".serverAliveInterval = 30;
+
+        miniature-train = {
+          hostname = "192.168.178.107";
+          user = "m1-s";
+        };
+      };
+
       extraConfig = ''
         AddKeysToAgent yes
         IdentityFile ~/.ssh/id_ed25519
