@@ -2,18 +2,35 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+
     home-manager.url = "github:nix-community/home-manager/release-25.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
     nixos-wsl.url = "github:nix-community/nixos-wsl";
+    nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
+
     plasma-manager = {
       url = "github:nix-community/plasma-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.home-manager.follows = "home-manager";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        home-manager.follows = "home-manager";
+      };
     };
+
     ghostty-shaders.url = "github:kronecorylus/ghostty-shader-playground";
     ghostty-shaders.flake = false;
+
     pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
-    feedback.url = "github:norfairking/feedback";
+    pre-commit-hooks.inputs.nixpkgs.follows = "nixpkgs";
+
+    feedback = {
+      url = "github:norfairking/feedback";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        pre-commit-hooks.follows = "pre-commit-hooks";
+      };
+    };
+
     # This does not contain cryptographic secrets.
     # However, it contains information that is related to my customers such as
     # IP adresses of their servers. Although these are public, I do not want to
