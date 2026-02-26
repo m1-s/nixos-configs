@@ -58,6 +58,11 @@
       };
 
       feedbackOverlay = _: _: { feedback = feedback.packages.${system}.default; };
+      lutrisOverlay = _: prev: {
+        lutris = prev.lutris.override {
+          extraLibraries = pkgs: with pkgs; [ libadwaita gtk4 ];
+        };
+      };
 
       modulesFromDir =
         let
@@ -130,10 +135,11 @@
             ./nixos-modules/virtualization.nix
             ./nixos-modules/miniature-trains.nix
             ./common.nix
-            (_: {
+            {
               nixpkgs.config.allowUnfree = true;
-              nixpkgs.overlays = [ feedbackOverlay ];
-
+              nixpkgs.overlays = [ feedbackOverlay lutrisOverlay ];
+            }
+            (_: {
               home-manager = {
                 extraSpecialArgs = { inherit inputs; };
                 useGlobalPkgs = true;

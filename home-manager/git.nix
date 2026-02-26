@@ -2,7 +2,7 @@
   programs.git = {
     enable = true;
 
-    extraConfig = {
+    settings = {
       user.name = "Michael Schneider";
       user.email = "michael@m1-s.com";
       pull.ff = "only";
