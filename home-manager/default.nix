@@ -122,6 +122,7 @@ in
     watson
     websocat
     wget
+    wgnord
     claude-code
     gh
   ];

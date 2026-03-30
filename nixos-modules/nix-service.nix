@@ -5,6 +5,7 @@
       log-lines = 25; # this is more than default
       trusted-users = [ "@wheel" ];
       fallback = true;
+      netrc-file = "/etc/nix/netrc";
     };
     extraOptions = ''
       min-free = ${toString (50 * 1024 * 1024 * 1024)} # 50 GB

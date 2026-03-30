@@ -133,7 +133,7 @@
             ./nixos-modules/kde.nix
             ./nixos-modules/sound.nix
             ./nixos-modules/virtualization.nix
-            ./nixos-modules/miniature-trains.nix
+            # ./nixos-modules/miniature-trains.nix
             ./common.nix
             {
               nixpkgs.config.allowUnfree = true;
