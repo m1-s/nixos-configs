@@ -3,6 +3,7 @@
   users.users.m1-s = {
     isNormalUser = true;
     extraGroups = [
+      "kvm"
       "libvirtd"
       "networkmanager"
       "wheel"
