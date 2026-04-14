@@ -125,5 +125,6 @@ in
     wgnord
     claude-code
     gh
+    pueue
   ];
 }
