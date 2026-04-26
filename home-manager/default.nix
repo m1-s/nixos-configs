@@ -30,6 +30,7 @@ in
       settings = {
         gui.skipDiscardChangeWarning = true;
         refresher.refreshInterval = 60;
+        git.pagers = [{ pager = "delta --dark --paging=never"; }];
       };
     };
 
@@ -84,6 +85,7 @@ in
   home.packages = with pkgs; [
     bat
     cachix
+    delta
     cntr
     curl
     discord
