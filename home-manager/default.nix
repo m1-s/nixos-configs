@@ -44,7 +44,6 @@ in
       initContent = pkgs.lib.mkOrder 550 ''
         fpath+="/etc/profiles/per-user/maksim/share/zsh/site-functions"
         gbdr(){ git branch -D $1; git push -d origin $1 }
-        nbr(){ local machine="$1"; shift; nix build --max-jobs 0 --builders "ssh-ng://$machine" "$@" }
       '';
       oh-my-zsh = {
         enable = true;
@@ -85,7 +84,12 @@ in
     };
   };
 
-  home.packages = with pkgs; [
+  home.packages = [
+    (pkgs.writeShellScriptBin "nbr" ''
+      machine="$1"; shift
+      exec nix build --max-jobs 0 --builders-use-substitutes --builders "ssh-ng://$machine" "$@"
+    '')
+  ] ++ (with pkgs; [
     bat
     cachix
     delta
@@ -130,5 +134,5 @@ in
     wgnord
     gh
     pueue
-  ];
+  ]);
 }
