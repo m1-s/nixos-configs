@@ -8,6 +8,7 @@ in
     ./git.nix
     ./tmux.nix
     ./ghostty.nix
+    ./claude-code.nix
   ];
 
   home.shellAliases = rec {
@@ -127,7 +128,6 @@ in
     websocat
     wget
     wgnord
-    claude-code
     gh
     pueue
   ];

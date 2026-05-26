@@ -1,0 +1,113 @@
+{ pkgs, ... }:
+let
+  statuslineScript = pkgs.writeShellScript "claude-statusline" ''
+    input=$(cat)
+
+    cwd=$(echo "$input" | ${pkgs.jq}/bin/jq -r '.workspace.current_dir // .cwd // empty')
+    [ -z "$cwd" ] && cwd=$(pwd)
+
+    # Shorten home directory to ~
+    cwd="''${cwd/#$HOME/~}"
+
+    model=$(echo "$input" | ${pkgs.jq}/bin/jq -r '.model.display_name // empty')
+
+    # Context usage
+    used=$(echo "$input" | ${pkgs.jq}/bin/jq -r '.context_window.used_percentage // empty')
+    if [ -n "$used" ]; then
+      ctx_str=$(printf "ctx:%.0f%%" "$used")
+    else
+      ctx_str=""
+    fi
+
+    # Git branch (skip optional locks so we never block)
+    branch=$(GIT_OPTIONAL_LOCKS=0 ${pkgs.git}/bin/git -C "''${cwd/#\~/$HOME}" symbolic-ref --short HEAD 2>/dev/null || true)
+
+    # Build the line
+    line=""
+
+    # directory segment
+    line="''${line}$(printf '\033[0;36m')''${cwd}$(printf '\033[0m')"
+
+    # git branch segment
+    if [ -n "$branch" ]; then
+      line="''${line} $(printf '\033[0;33m')''${branch}$(printf '\033[0m')"
+    fi
+
+    # model segment
+    if [ -n "$model" ]; then
+      line="''${line} $(printf '\033[0;35m')''${model}$(printf '\033[0m')"
+    fi
+
+    # context segment
+    if [ -n "$ctx_str" ]; then
+      line="''${line} $(printf '\033[0;32m')''${ctx_str}$(printf '\033[0m')"
+    fi
+
+    printf '%s' "$line"
+  '';
+in
+{
+  programs.claude-code = {
+    enable = true;
+
+    memory.text = ''
+      ## About me
+
+      - German freelancer working in IT
+
+      ## General
+
+      - When creating PRs, do not include a test plan.
+      - After creating a PR, watch the CI status with gh pr --watch --fail-fast.
+        If it fails, create a fix, amend & force push it until the CI succeeds.
+      - When creating a commit, never use --no-edit. Repos run formatters and
+        linters as pre-commit hooks. If a formatting hook fails, it will usually
+        apply it's fix automatically so you only have to stage it. If a linting hook
+        fails, it may not be able to apply the fix automatically so you need to fix
+        it.
+      - Never mention claude code when creating PRs or commit messages.
+      - Always use pueue for ANY command that might take longer than 10
+        seconds to avoid timeouts. This includes but is not limited to:
+        - Any build operations (nix build, make, ninja, cargo, ghci)
+        - Any test runs that might be slow
+        Each instance must use its own pueue group (derived from the git repo
+        folder name) so that jobs from the same instance run sequentially while
+        different instances run in parallel.
+        To run and wait (note: quote the entire command to preserve argument quoting):
+        ```bash
+        # Set up the group (idempotent, safe to run every time)
+        GROUP="$(basename "$(git rev-parse --show-toplevel)")"
+        pueue group add "$GROUP" 2>/dev/null || true
+        pueue parallel 1 -g "$GROUP"
+        pueue add -g "$GROUP" -- 'command arg1 "arg with spaces"'
+        pueue follow <task-id> | tail -n 10 # waits for the command to finish
+        ```
+
+      ## Nix
+
+      - To build on a remote machine, use `nbr <machine> <flake-ref>` (nix build remote).
+        Example: `nbr myMachine .#foo`
+
+      ## Coding
+
+      - Commit messages: Start with the affected code/file/business-topic (e.g., "login: ..."), not the change type (e.g., "refactor: ...").
+    '';
+
+    settings = {
+      env = {
+        CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS = "1";
+        CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY = "1";
+      };
+      alwaysThinkingEnabled = true;
+      skipDangerousModePermissionPrompt = true;
+      statusLine = {
+        type = "command";
+        command = "bash ${statuslineScript}";
+      };
+      attribution = {
+        commit = "";
+        pr = "";
+      };
+    };
+  };
+}
