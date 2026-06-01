@@ -33,6 +33,10 @@ set ignorecase
 set smartcase
 set noswapfile
 set history=500
+set autoread
+
+" Auto-reload files when changed externally
+autocmd FocusGained,BufEnter * checktime
 
 " Highlight on yank.
 autocmd TextYankPost * silent! lua vim.highlight.on_yank {higroup="IncSearch", timeout=200}

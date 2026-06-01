@@ -8,6 +8,7 @@
     historyLimit = 50000;
     keyMode = "vi";
     sensibleOnTop = true;
+    focusEvents = true;
     disableConfirmationPrompt = true;
     escapeTime = 1; # set to 1 because 0 prints strange characters
     mouse = true;
