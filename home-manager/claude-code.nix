@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 let
   statuslineScript = pkgs.writeShellScript "claude-statusline" ''
     input=$(cat)
@@ -49,6 +49,7 @@ in
 {
   programs.claude-code = {
     enable = true;
+    package = inputs.llm-agents.packages.${pkgs.system}.claude-code;
 
     memory.text = ''
       ## About me

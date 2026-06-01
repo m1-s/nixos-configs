@@ -20,6 +20,8 @@
     ghostty-shaders.url = "github:kronecorylus/ghostty-shader-playground";
     ghostty-shaders.flake = false;
 
+    llm-agents.url = "github:numtide/llm-agents.nix";
+
     pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
     pre-commit-hooks.inputs.nixpkgs.follows = "nixpkgs";
 
