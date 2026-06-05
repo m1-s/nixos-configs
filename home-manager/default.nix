@@ -70,19 +70,27 @@ in
 
     ssh = {
       enable = true;
-      matchBlocks = {
-        "*".serverAliveInterval = 30;
+      enableDefaultConfig = false;
+      settings = {
+        "*" = {
+          ForwardAgent = false;
+          AddKeysToAgent = "yes";
+          Compression = false;
+          ServerAliveInterval = 30;
+          ServerAliveCountMax = 3;
+          HashKnownHosts = false;
+          UserKnownHostsFile = "~/.ssh/known_hosts";
+          ControlMaster = "no";
+          ControlPath = "~/.ssh/master-%r@%n:%p";
+          ControlPersist = "no";
+          IdentityFile = "~/.ssh/id_ed25519";
+        };
 
         miniature-train = {
-          hostname = "192.168.178.107";
-          user = "m1-s";
+          HostName = "192.168.178.107";
+          User = "m1-s";
         };
       };
-
-      extraConfig = ''
-        AddKeysToAgent yes
-        IdentityFile ~/.ssh/id_ed25519
-      '';
     };
   };
 

@@ -20,6 +20,7 @@
       vim-gh-line
       {
         plugin = vim-airline;
+        type = "viml";
         config = ''
           let g:airline_theme = 'deus'
           let g:airline_powerline_fonts = 1
@@ -34,6 +35,7 @@
       }
       {
         plugin = telescope-nvim;
+        type = "viml";
         config = ''
           lua << EOF
           require('telescope').setup{
@@ -60,6 +62,7 @@
       }
       {
         plugin = vim-nerdtree-syntax-highlight;
+        type = "viml";
         config = ''
           let s:blue = "689FB6"
           let s:lightPurple = "834F79"
@@ -74,6 +77,7 @@
       }
       {
         plugin = nerdtree;
+        type = "viml";
         config = ''
           autocmd StdinReadPre * let s:std_in=1
           autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
@@ -94,6 +98,7 @@
       # }
       {
         plugin = vim-better-whitespace;
+        type = "viml";
         config = ''
           let g:better_whitespace_enabled = 1
           let g:strip_whitespace_on_save = 1
