@@ -94,6 +94,28 @@ in
     };
   };
 
+  # Persistent user ssh-agent with a fixed socket (replaces the per-session
+  # NixOS programs.ssh.startAgent), so we can reliably seed it on login.
+  services.ssh-agent.enable = true;
+
+  # The key is passphraseless, so load it into the agent on every login.
+  # Without this the agent starts empty after each reboot and ForwardAgent
+  # has nothing to forward until a manual `ssh-add`.
+  systemd.user.services.ssh-add-key = {
+    Unit = {
+      Description = "Add ssh key to the agent";
+      Requires = [ "ssh-agent.service" ];
+      After = [ "ssh-agent.service" ];
+      ConditionPathExists = "%h/.ssh/id_ed25519";
+    };
+    Service = {
+      Type = "oneshot";
+      Environment = "SSH_AUTH_SOCK=%t/ssh-agent";
+      ExecStart = "${pkgs.openssh}/bin/ssh-add %h/.ssh/id_ed25519";
+    };
+    Install.WantedBy = [ "default.target" ];
+  };
+
   home.packages = [
     (pkgs.writeShellScriptBin "nbr" ''
       machine="$1"; shift
