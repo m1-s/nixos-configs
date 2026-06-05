@@ -4,6 +4,8 @@
     enable = true;
     vimAlias = true;
     defaultEditor = true;
+    withRuby = false;
+    withPython3 = false;
     plugins = with pkgs.vimPlugins; [
       lsp-format-nvim
       nerdtree-git-plugin
@@ -137,7 +139,7 @@
   };
 
   home.packages = with pkgs; [
-    nodePackages_latest.bash-language-server
+    bash-language-server
     ripgrep
     # required for copy to clipboard
     xclip

@@ -1,4 +1,6 @@
 { inputs, ... }: {
+  nixpkgs.hostPlatform.system = "x86_64-linux";
+
   imports = [
     ./nixos-modules/experimental.nix
     ./nixos-modules/m1-s.nix

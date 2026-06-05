@@ -89,7 +89,7 @@ in
   home.packages = [
     (pkgs.writeShellScriptBin "nbr" ''
       machine="$1"; shift
-      exec nix build --max-jobs 0 --builders-use-substitutes --builders "ssh-ng://$machine x86_64-linux - 64 1 nixos-test,kvm" "$@"
+      exec nom build --max-jobs 0 --builders-use-substitutes --builders "ssh-ng://$machine x86_64-linux - 64 1 nixos-test,kvm" "$@"
     '')
   ] ++ (with pkgs; [
     bat
@@ -110,7 +110,7 @@ in
     libreoffice
     magic-wormhole
     mtr
-    neofetch
+    fastfetch
     niv
     nix-diff
     nix-output-monitor
