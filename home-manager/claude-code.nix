@@ -67,6 +67,7 @@ in
         fails, it may not be able to apply the fix automatically so you need to fix
         it.
       - Never mention claude code when creating PRs or commit messages.
+      - Never write comments on PRs without explicit consent.
       - Always use pueue for ANY command that might take longer than 10
         seconds to avoid timeouts. This includes but is not limited to:
         - Any build operations (nix build, make, ninja, cargo, ghci)
