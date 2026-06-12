@@ -96,6 +96,10 @@ in
       - Never run a project's full test suite since that takes a long time.
         Instead, only run the tests that are directly connected to the
         change/refactoring you made.
+      - Prefer vertically structured code: organize code by feature/domain
+        (everything for one feature lives together as a self-contained slice)
+        rather than horizontally by technical layer (controllers, services,
+        models in separate trees).
     '';
 
     skills.grill-me = ''
