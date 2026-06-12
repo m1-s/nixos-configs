@@ -93,6 +93,9 @@ in
       ## Coding
 
       - Commit messages: Start with the affected code/file/business-topic (e.g., "login: ..."), not the change type (e.g., "refactor: ...").
+      - Never run a project's full test suite since that takes a long time.
+        Instead, only run the tests that are directly connected to the
+        change/refactoring you made.
     '';
 
     skills.grill-me = ''
