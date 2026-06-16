@@ -74,6 +74,22 @@
         "type": "github"
       }
     },
+    "claude-git-pr-skill": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1764661255,
+        "narHash": "sha256-t2hoQTmC0cOuMYecYiXPRQY9lFicAW0AjK8QAzjl7Mo=",
+        "owner": "aidankinzett",
+        "repo": "claude-git-pr-skill",
+        "rev": "3660dca92424b91f1eb716b5815b476c3913450e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "aidankinzett",
+        "repo": "claude-git-pr-skill",
+        "type": "github"
+      }
+    },
     "dekking": {
       "flake": false,
       "locked": {
@@ -406,6 +422,7 @@
     },
     "root": {
       "inputs": {
+        "claude-git-pr-skill": "claude-git-pr-skill",
         "feedback": "feedback",
         "ghostty-shaders": "ghostty-shaders",
         "home-manager": "home-manager",

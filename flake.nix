@@ -20,6 +20,9 @@
     ghostty-shaders.url = "github:kronecorylus/ghostty-shader-playground";
     ghostty-shaders.flake = false;
 
+    claude-git-pr-skill.url = "github:aidankinzett/claude-git-pr-skill";
+    claude-git-pr-skill.flake = false;
+
     llm-agents.url = "github:numtide/llm-agents.nix";
 
     pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";

@@ -115,6 +115,9 @@ in
       If a question can be answered by exploring the codebase, explore the codebase instead.
     '';
 
+    skills.github-pr-review =
+      "${inputs.claude-git-pr-skill}/github-pr-review/skills/github-pr-review/SKILL.md";
+
     settings = {
       env = {
         CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS = "1";
