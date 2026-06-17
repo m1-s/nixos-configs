@@ -103,6 +103,16 @@ in
       - Do not write code comments that duplicate information already present
         in the code. Comments should explain why, not restate what the code
         already says.
+      - DO NOT comment on self-explanatory code (e.g., `x = x + 1 // increment x`).
+      - Code comments must be timeless. Do not write comments that reference a
+        previous iteration of the code or explain how it changed (e.g., "now we
+        do X instead of Y", "switched from A to B"). Nobody reading the code can
+        see the previous version, so such comments only confuse. Describe the
+        code as it is, not how it came to be.
+      - Comments must be understandable from just the code. They must not rely on
+        prior knowledge from a conversation with an AI or a previous debugging
+        session. A reader seeing the code for the first time must be able to make
+        full sense of the comment.
     '';
 
     skills.grill-me = ''
