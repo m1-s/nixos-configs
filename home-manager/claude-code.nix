@@ -100,6 +100,9 @@ in
         (everything for one feature lives together as a self-contained slice)
         rather than horizontally by technical layer (controllers, services,
         models in separate trees).
+      - Do not write code comments that duplicate information already present
+        in the code. Comments should explain why, not restate what the code
+        already says.
     '';
 
     skills.grill-me = ''
