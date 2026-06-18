@@ -75,13 +75,12 @@ in
         Each instance must use its own pueue group (derived from the git repo
         folder name) so that jobs from the same instance run sequentially while
         different instances run in parallel.
+        Always use the `pga` shell alias to schedule long running jobs. It
+        derives the group from the git repo folder name, creates the group if
+        needed, pins it to sequential execution, and adds the job to it.
         To run and wait (note: quote the entire command to preserve argument quoting):
         ```bash
-        # Set up the group (idempotent, safe to run every time)
-        GROUP="$(basename "$(git rev-parse --show-toplevel)")"
-        pueue group add "$GROUP" 2>/dev/null || true
-        pueue parallel 1 -g "$GROUP"
-        pueue add -g "$GROUP" -- 'command arg1 "arg with spaces"'
+        pga 'command arg1 "arg with spaces"'
         pueue follow <task-id> | tail -n 10 # waits for the command to finish
         ```
 
