@@ -47,6 +47,8 @@ let
   '';
 in
 {
+  home.shellAliases.claude = "claude --dangerously-skip-permissions";
+
   programs.claude-code = {
     enable = true;
     package = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.claude-code;

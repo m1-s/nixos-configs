@@ -12,7 +12,6 @@ in
   ];
 
   home.shellAliases = rec {
-    claude = "claude --dangerously-skip-permissions";
     nrs = "sudo nixos-rebuild switch --flake ${configDir} && exec zsh";
     nrt = "sudo nixos-rebuild test --flake ${configDir} && exec zsh";
     nru = "nix flake update --flake ${configDir} && ${nrs}";
