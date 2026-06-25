@@ -68,21 +68,6 @@ in
         it.
       - Never mention claude code when creating PRs or commit messages.
       - Never write comments on PRs without explicit consent.
-      - Always use pueue for ANY command that might take longer than 10
-        seconds to avoid timeouts. This includes but is not limited to:
-        - Any build operations (nix build, make, ninja, cargo, ghci)
-        - Any test runs that might be slow
-        Each instance must use its own pueue group (derived from the git repo
-        folder name) so that jobs from the same instance run sequentially while
-        different instances run in parallel.
-        Always use the `pga` shell alias to schedule long running jobs. It
-        derives the group from the git repo folder name, creates the group if
-        needed, pins it to sequential execution, and adds the job to it.
-        To run and wait (note: quote the entire command to preserve argument quoting):
-        ```bash
-        pga 'command arg1 "arg with spaces"'
-        pueue follow <task-id> | tail -n 10 # waits for the command to finish
-        ```
 
       ## Nix
 

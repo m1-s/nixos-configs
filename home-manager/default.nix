@@ -24,7 +24,6 @@ in
     gpb = "git fetch -p && for branch in $(git for-each-ref --format '%(refname) %(upstream:track)' refs/heads | awk '$2 == \"[gone]\" {sub(\"refs/heads/\", \"\", $1); print $1}'); do git branch -D $branch; done";
     wss = "watson start supercede";
     ws = "watson stop";
-    pga = "GROUP=\"$(basename \"$(git rev-parse --show-toplevel)\")\"; pueue group add \"$GROUP\" 2>/dev/null; pueue parallel 1 -g \"$GROUP\" >/dev/null; pueue add -g \"$GROUP\" --";
   };
 
   programs = {
@@ -166,6 +165,5 @@ in
     wget
     wgnord
     gh
-    pueue
   ]);
 }
