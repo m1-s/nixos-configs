@@ -70,6 +70,7 @@ in
         it.
       - Never mention claude code when creating PRs or commit messages.
       - Never write comments on PRs without explicit consent.
+      - When reporting information to me, be extremely concise and sacrifice grammar for sake of concision.
 
       ## Nix
 
