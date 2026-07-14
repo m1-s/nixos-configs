@@ -23,6 +23,9 @@
     claude-git-pr-skill.url = "github:aidankinzett/claude-git-pr-skill";
     claude-git-pr-skill.flake = false;
 
+    claude-code-plugins.url = "github:anthropics/claude-code";
+    claude-code-plugins.flake = false;
+
     llm-agents.url = "github:numtide/llm-agents.nix";
 
     pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";

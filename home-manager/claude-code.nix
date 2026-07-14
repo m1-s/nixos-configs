@@ -118,6 +118,8 @@ in
     skills.github-pr-review =
       "${inputs.claude-git-pr-skill}/github-pr-review/skills/github-pr-review/SKILL.md";
 
+    plugins = [ "${inputs.claude-code-plugins}/plugins/frontend-design" ];
+
     settings = {
       env = {
         CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS = "1";

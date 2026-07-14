@@ -74,6 +74,22 @@
         "type": "github"
       }
     },
+    "claude-code-plugins": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1783991434,
+        "narHash": "sha256-81TpG3OPqvEWgEg06CDEPcEtYahOj5Zwn143ldS5Et0=",
+        "owner": "anthropics",
+        "repo": "claude-code",
+        "rev": "1fb278b85d4546c7c04db3b3590e031b5a8a7571",
+        "type": "github"
+      },
+      "original": {
+        "owner": "anthropics",
+        "repo": "claude-code",
+        "type": "github"
+      }
+    },
     "claude-git-pr-skill": {
       "flake": false,
       "locked": {
@@ -422,6 +438,7 @@
     },
     "root": {
       "inputs": {
+        "claude-code-plugins": "claude-code-plugins",
         "claude-git-pr-skill": "claude-git-pr-skill",
         "feedback": "feedback",
         "ghostty-shaders": "ghostty-shaders",
