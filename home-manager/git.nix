@@ -1,4 +1,6 @@
 {
+  programs.git-absorb.enable = true;
+
   programs.git = {
     enable = true;
 
