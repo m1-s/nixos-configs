@@ -3,6 +3,7 @@
 
   imports = [
     ./nixos-modules/experimental.nix
+    ./nixos-modules/locale.nix
     ./nixos-modules/m1-s.nix
     ./nixos-modules/virtualization.nix
     ./nixos-modules/zsh.nix
