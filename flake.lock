@@ -196,6 +196,22 @@
         "type": "github"
       }
     },
+    "gh-image-skill": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1785186232,
+        "narHash": "sha256-igGh3J9QqGdDdrcnHLZV+J0yXgVFxigzFHp8mtiI/nQ=",
+        "owner": "drogers0",
+        "repo": "gh-image",
+        "rev": "0e724f63bd71bf1c2ba2128eee0959b89841a48f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "drogers0",
+        "repo": "gh-image",
+        "type": "github"
+      }
+    },
     "ghostty-shaders": {
       "flake": false,
       "locked": {
@@ -415,6 +431,7 @@
         "claude-code-plugins": "claude-code-plugins",
         "claude-git-pr-skill": "claude-git-pr-skill",
         "feedback": "feedback",
+        "gh-image-skill": "gh-image-skill",
         "ghostty-shaders": "ghostty-shaders",
         "home-manager": "home-manager",
         "llm-agents": "llm-agents",

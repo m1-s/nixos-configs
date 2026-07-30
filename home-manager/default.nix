@@ -6,6 +6,7 @@ in
   imports = [
     ./nvim
     ./git.nix
+    ./gh.nix
     ./tmux.nix
     ./ghostty.nix
     ./claude-code.nix
@@ -163,6 +164,5 @@ in
     websocat
     wget
     wgnord
-    gh
   ]);
 }

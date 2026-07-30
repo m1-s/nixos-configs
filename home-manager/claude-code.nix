@@ -61,6 +61,16 @@ in
       ## General
 
       - When creating PRs, do not include a test plan.
+      - When a PR fixes a GitHub issue, link it in the PR description with
+        "fixes #1234", not "addresses #1234".
+      - When a PR changes the UI, include screenshots of the changed UI in the
+        PR description. Use the github-image-upload skill to upload them.
+      - gh extensions are installed declaratively in home-manager/gh.nix. Never
+        run `gh extension install`; if an extension is missing, add it there.
+      - `gh image` authenticates with the github.com `user_session` browser
+        cookie, which grants full account access. Never run `gh image
+        extract-token` or `check-token`, and never print that cookie's value
+        into a response, file, or commit.
       - After creating a PR, watch the CI status with gh pr --watch --fail-fast.
         If it fails, create a fix, amend & force push it until the CI succeeds.
       - When creating a commit, never use --no-edit. Repos run formatters and
@@ -102,21 +112,26 @@ in
         full sense of the comment.
     '';
 
-    skills.grill-me = ''
-      ---
-      name: grill-me
-      description: Interview the user relentlessly about a plan or design until reaching shared understanding, resolving each branch of the decision tree. Use when user wants to stress-test a plan, get grilled on their design, or mentions "grill me".
-      ---
+    skills = {
+      grill-me = ''
+        ---
+        name: grill-me
+        description: Interview the user relentlessly about a plan or design until reaching shared understanding, resolving each branch of the decision tree. Use when user wants to stress-test a plan, get grilled on their design, or mentions "grill me".
+        ---
 
-      Interview me relentlessly about every aspect of this plan until we reach a shared understanding. Walk down each branch of the design tree, resolving dependencies between decisions one-by-one. For each question, provide your recommended answer.
+        Interview me relentlessly about every aspect of this plan until we reach a shared understanding. Walk down each branch of the design tree, resolving dependencies between decisions one-by-one. For each question, provide your recommended answer.
 
-      Ask the questions one at a time.
+        Ask the questions one at a time.
 
-      If a question can be answered by exploring the codebase, explore the codebase instead.
-    '';
+        If a question can be answered by exploring the codebase, explore the codebase instead.
+      '';
 
-    skills.github-pr-review =
-      "${inputs.claude-git-pr-skill}/github-pr-review/skills/github-pr-review/SKILL.md";
+      github-pr-review =
+        "${inputs.claude-git-pr-skill}/github-pr-review/skills/github-pr-review/SKILL.md";
+
+      github-image-upload =
+        "${inputs.gh-image-skill}/skills/github-image-upload/SKILL.md";
+    };
 
     plugins = [ "${inputs.claude-code-plugins}/plugins/frontend-design" ];
 
@@ -126,6 +141,7 @@ in
         CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY = "1";
       };
       alwaysThinkingEnabled = true;
+      tui = "fullscreen";
       skipDangerousModePermissionPrompt = true;
       statusLine = {
         type = "command";

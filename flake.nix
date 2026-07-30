@@ -26,6 +26,9 @@
     claude-code-plugins.url = "github:anthropics/claude-code";
     claude-code-plugins.flake = false;
 
+    gh-image-skill.url = "github:drogers0/gh-image";
+    gh-image-skill.flake = false;
+
     llm-agents.url = "github:numtide/llm-agents.nix";
 
     pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
