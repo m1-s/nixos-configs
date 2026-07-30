@@ -80,6 +80,13 @@ in
         apply it's fix automatically so you only have to stage it. If a linting hook
         fails, it may not be able to apply the fix automatically so you need to fix
         it.
+      - You have the current git worktree to yourself, but other agents may be
+        working in sibling worktrees of the same repository at the same time.
+        Only the working tree and index are per-worktree; the stash, branches,
+        tags, reflog and config are shared. So `git stash` is unreliable —
+        another agent can pop or drop your entry. Commit to your own branch
+        instead of stashing, leave branches you do not own alone, and never run
+        `git gc` or `git worktree prune`.
       - Never mention claude code when creating PRs or commit messages.
       - Never write comments on PRs without explicit consent.
       - When reporting information to me, be extremely concise and sacrifice grammar for sake of concision.
