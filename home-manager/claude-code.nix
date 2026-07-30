@@ -61,8 +61,8 @@ in
       ## General
 
       - When creating PRs, do not include a test plan.
-      - When a PR fixes a GitHub issue, link it in the PR description with
-        "fixes #1234", not "addresses #1234".
+      - PR descriptions are a short changelog: concise bullet points, one per
+        change. No prose sections, no summary paragraph.
       - When a PR changes the UI, include screenshots of the changed UI in the
         PR description. Use the github-image-upload skill to upload them.
         Lay out before/after screenshots side by side, in a two-column markdown
