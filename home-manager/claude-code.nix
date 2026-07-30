@@ -65,6 +65,8 @@ in
         "fixes #1234", not "addresses #1234".
       - When a PR changes the UI, include screenshots of the changed UI in the
         PR description. Use the github-image-upload skill to upload them.
+        Lay out before/after screenshots side by side, in a two-column markdown
+        table with "Before" and "After" headers.
       - gh extensions are installed declaratively in home-manager/gh.nix. Never
         run `gh extension install`; if an extension is missing, add it there.
       - `gh image` authenticates with the github.com `user_session` browser
