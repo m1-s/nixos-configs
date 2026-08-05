@@ -33,7 +33,7 @@ in
     };
     settings = {
       theme = "sweet";
-      custom-shader = "${inputs.ghostty-shaders}/public/shaders/cursor_blaze_tapered.glsl";
+      custom-shader = "${./ghostty-shaders/cursor_blaze.glsl}";
       maximize = true;
     };
   };
