@@ -13,7 +13,12 @@
     escapeTime = 1; # set to 1 because 0 prints strange characters
     mouse = true;
     shell = "${pkgs.zsh}/bin/zsh";
+    terminal = "tmux-256color";
     extraConfig = ''
+      # without this tmux quantizes 24 bit colors to the 256 color palette,
+      # which distorts the color schemes of TUIs running inside it
+      set -ag terminal-features ",*:RGB"
+
       # sync tmux buffer with terminal clipboard
       set -g set-clipboard on
 
