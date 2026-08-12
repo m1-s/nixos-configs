@@ -1,5 +1,22 @@
 { pkgs, inputs, ... }:
 let
+  # Diffs are rendered with syntax highlighting, which paints comments in a mid
+  # grey. Against the dark theme's diff backgrounds that grey only reaches a
+  # contrast ratio of 1.5:1, so the backgrounds are darkened here. The syntax
+  # colors are not part of the theme and cannot be adjusted.
+  diffTheme = {
+    name = "Sweet diff";
+    base = "dark";
+    overrides = {
+      diffAdded = "rgb(20,52,25)";
+      diffAddedDimmed = "rgb(34,44,36)";
+      diffAddedWord = "rgb(40,110,64)";
+      diffRemoved = "rgb(60,24,30)";
+      diffRemovedDimmed = "rgb(48,34,36)";
+      diffRemovedWord = "rgb(148,64,80)";
+    };
+  };
+
   statuslineScript = pkgs.writeShellScript "claude-statusline" ''
     input=$(cat)
 
@@ -48,6 +65,8 @@ let
 in
 {
   home.shellAliases.claude = "claude --dangerously-skip-permissions";
+
+  home.file.".claude/themes/sweet-diff.json".text = builtins.toJSON diffTheme;
 
   programs.claude-code = {
     enable = true;
@@ -150,6 +169,7 @@ in
         CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY = "1";
       };
       alwaysThinkingEnabled = true;
+      theme = "custom:sweet-diff";
       tui = "fullscreen";
       skipDangerousModePermissionPrompt = true;
       statusLine = {
