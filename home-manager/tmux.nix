@@ -1,5 +1,28 @@
 { pkgs, ... }:
 
+let
+  # claude sets the terminal title to the session topic, which tmux tracks as
+  # pane_title. Use it as the window name. The leading glyph is kept: it spins
+  # while claude works and settles on ✳ when it is done. The pane loop means any
+  # claude pane in the window wins, so opening a second pane cannot take the
+  # name over; only windows without any claude pane fall back to tmux's default.
+  hasClaude = "#{P:#{?#{==:#{pane_current_command},claude},1,}}";
+  claudeTopic = "#{P:#{?#{==:#{pane_current_command},claude},#{=/27/…:pane_title},}}";
+  tmuxDefaultName = "#{?pane_in_mode,[tmux],#{pane_current_command}}#{?pane_dead,[dead],}";
+  windowName = "#{?${hasClaude},${claudeTopic},${tmuxDefaultName}}";
+  # tmux only re-evaluates automatic-rename-format when a pane produces output,
+  # so an idle claude window would keep a stale name. Render the same thing in
+  # the status line, which is re-expanded on every redraw.
+  windowStatus = "#I:${windowName}#{?window_flags,#{window_flags}, }";
+
+  # choose-tree's default format prints the window name and, for single pane
+  # windows, the pane title behind it — which is the same topic twice. Show the
+  # untruncated topic instead for claude windows, default rendering otherwise.
+  claudeTopicFull = "#{P:#{?#{==:#{pane_current_command},claude},#{pane_title},}}";
+  paneTitleSuffix = ''#{?#{&&:#{pane_title},#{!=:#{pane_title},#{host_short}}},: "#{pane_title}",}'';
+  treeWindowLine = "#{?${hasClaude},${claudeTopicFull}#{window_flags},#{window_name}#{window_flags}#{?#{==:#{window_panes},1},${paneTitleSuffix},}}";
+  treeFormat = "#{?pane_format,#{?pane_marked,#[reverse],}#{pane_current_command}#{?pane_active,*,}#{?pane_marked,M,}${paneTitleSuffix},#{?window_format,#{?window_marked_flag,#[reverse],}${treeWindowLine},#{session_windows} windows#{?session_grouped, (group #{session_group}: #{session_group_list}),}#{?session_attached, (attached),}}}";
+in
 {
   programs.tmux = {
     aggressiveResize = true;
@@ -21,6 +44,17 @@
 
       # sync tmux buffer with terminal clipboard
       set -g set-clipboard on
+
+      set -g automatic-rename-format "${windowName}"
+      set -g window-status-format "${windowStatus}"
+      set -g window-status-current-format "${windowStatus}"
+
+      bind s choose-tree -Zs -F '${treeFormat}'
+      bind w choose-tree -Zw -F '${treeFormat}'
+
+      # redraw the whole window list every second so the claude glyph of
+      # background windows keeps animating instead of freezing
+      set -g status-interval 1
 
       set -g repeat-time 0
       set -g pane-base-index 1
