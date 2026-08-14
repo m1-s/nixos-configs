@@ -86,6 +86,9 @@ in
         PR description. Use the github-image-upload skill to upload them.
         Lay out before/after screenshots side by side, in a two-column markdown
         table with "Before" and "After" headers.
+      - Before updating a PR description (e.g. inserting screenshots), fetch its
+        current body first — I may have edited it meanwhile. Edit on top of that
+        state, never overwrite my changes.
       - gh extensions are installed declaratively in home-manager/gh.nix. Never
         run `gh extension install`; if an extension is missing, add it there.
       - `gh image` authenticates with the github.com `user_session` browser
@@ -109,6 +112,7 @@ in
       - Never mention claude code when creating PRs or commit messages.
       - Never write comments on PRs without explicit consent.
       - When reporting information to me, be extremely concise and sacrifice grammar for sake of concision.
+      - Never mention estimated implementation time durations.
 
       ## Nix
 
@@ -125,19 +129,12 @@ in
         (everything for one feature lives together as a self-contained slice)
         rather than horizontally by technical layer (controllers, services,
         models in separate trees).
-      - Do not write code comments that duplicate information already present
-        in the code. Comments should explain why, not restate what the code
-        already says.
-      - DO NOT comment on self-explanatory code (e.g., `x = x + 1 // increment x`).
-      - Code comments must be timeless. Do not write comments that reference a
-        previous iteration of the code or explain how it changed (e.g., "now we
-        do X instead of Y", "switched from A to B"). Nobody reading the code can
-        see the previous version, so such comments only confuse. Describe the
-        code as it is, not how it came to be.
-      - Comments must be understandable from just the code. They must not rely on
-        prior knowledge from a conversation with an AI or a previous debugging
-        session. A reader seeing the code for the first time must be able to make
-        full sense of the comment.
+      - Never add comments when generating new code. Exception: doc comments in
+        the language's standard documentation format (Haddock, rustdoc, JSDoc,
+        docstrings, godoc, …) in the standard places — above modules, above
+        top-level functions and on data type fields/constructors.
+      - Keep comments extremely concise and sacrifice grammar for sake of
+        concision.
     '';
 
     skills = {
