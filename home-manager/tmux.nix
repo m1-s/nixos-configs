@@ -10,17 +10,24 @@ let
   claudeTopic = "#{P:#{?#{==:#{pane_current_command},claude},#{=/27/…:pane_title},}}";
   tmuxDefaultName = "#{?pane_in_mode,[tmux],#{pane_current_command}}#{?pane_dead,[dead],}";
   windowName = "#{?${hasClaude},${claudeTopic},${tmuxDefaultName}}";
+
+  # claude prefixes the title with ✳ when it waits for input and with a spinner
+  # frame while it works. The spinner is too fast to follow in a status line, so
+  # the state is carried by color instead: yellow while thinking, green when done.
+  claudeIdle = "#{m:✳*,${claudeTopic}}";
+  claudeColor = "#[fg=#{?${claudeIdle},green,yellow}]";
+
   # tmux only re-evaluates automatic-rename-format when a pane produces output,
   # so an idle claude window would keep a stale name. Render the same thing in
   # the status line, which is re-expanded on every redraw.
-  windowStatus = "#I:${windowName}#{?window_flags,#{window_flags}, }";
+  windowStatus = "#I:#{?${hasClaude},${claudeColor}${claudeTopic}#[default],${tmuxDefaultName}}#{?window_flags,#{window_flags}, }";
 
   # choose-tree's default format prints the window name and, for single pane
   # windows, the pane title behind it — which is the same topic twice. Show the
   # untruncated topic instead for claude windows, default rendering otherwise.
   claudeTopicFull = "#{P:#{?#{==:#{pane_current_command},claude},#{pane_title},}}";
   paneTitleSuffix = ''#{?#{&&:#{pane_title},#{!=:#{pane_title},#{host_short}}},: "#{pane_title}",}'';
-  treeWindowLine = "#{?${hasClaude},${claudeTopicFull}#{window_flags},#{window_name}#{window_flags}#{?#{==:#{window_panes},1},${paneTitleSuffix},}}";
+  treeWindowLine = "#{?${hasClaude},${claudeColor}${claudeTopicFull}#[default]#{window_flags},#{window_name}#{window_flags}#{?#{==:#{window_panes},1},${paneTitleSuffix},}}";
   treeFormat = "#{?pane_format,#{?pane_marked,#[reverse],}#{pane_current_command}#{?pane_active,*,}#{?pane_marked,M,}${paneTitleSuffix},#{?window_format,#{?window_marked_flag,#[reverse],}${treeWindowLine},#{session_windows} windows#{?session_grouped, (group #{session_group}: #{session_group_list}),}#{?session_attached, (attached),}}}";
 in
 {
@@ -52,9 +59,18 @@ in
       bind s choose-tree -Zs -F '${treeFormat}'
       bind w choose-tree -Zw -F '${treeFormat}'
 
-      # redraw the whole window list every second so the claude glyph of
-      # background windows keeps animating instead of freezing
+      # tmux highlights the selected choose-tree line with its default yellow
+      # background, which swallows the yellow thinking color. A dark bar keeps
+      # both state colors readable.
+      set -g mode-style "noattr,bg=#3a4152,fg=default"
+
       set -g status-interval 1
+
+      # claude advances its ◐/◑ title spinner only while the terminal reports
+      # focus, so the glyph of every background window freezes. Hand the focus
+      # straight back to claude panes after tmux takes it away; every other
+      # program keeps seeing real focus events (nvim needs them for checktime).
+      set-hook -g pane-focus-out "if -F '#{==:#{pane_current_command},claude}' 'send-keys -H 1b 5b 49'"
 
       set -g repeat-time 0
       set -g pane-base-index 1
