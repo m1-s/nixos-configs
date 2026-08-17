@@ -33,6 +33,13 @@ in
     };
     settings = {
       theme = "sweet";
+      # ghostty defaults shift+insert to the primary selection, while GTK/Qt
+      # apps paste the clipboard from it. Match the apps, so the same key works
+      # everywhere for text that was copied rather than mouse selected.
+      keybind = [ "shift+insert=paste_from_clipboard" ];
+      # drop the toast ghostty shows on every clipboard copy, keep the one for
+      # config reloads
+      app-notifications = "no-clipboard-copy";
       custom-shader = "${./ghostty-shaders/cursor_blaze.glsl}";
       maximize = true;
     };
