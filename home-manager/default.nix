@@ -40,7 +40,12 @@ in
 
     zsh = {
       enable = true;
-      autosuggestion.enable = true;
+      autosuggestion = {
+        enable = true;
+        # the default fg=8 resolves to the sweet theme's bright black #282c34,
+        # which is nearly the background #161925 and unreadable
+        highlight = "fg=#7a8194";
+      };
       enableCompletion = true;
       syntaxHighlighting.enable = true;
       initContent = pkgs.lib.mkOrder 550 ''
