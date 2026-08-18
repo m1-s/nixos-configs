@@ -93,6 +93,9 @@ in
         into a response, file, or commit.
       - After creating a PR, watch the CI status with gh pr --watch --fail-fast.
         If it fails, create a fix, amend & force push it until the CI succeeds.
+      - When watching a CI run and it exits immediately after the push, the
+        branch most likely conflicts with master. Rebase on master, force push
+        and watch the new run.
       - When creating a commit, never use --no-edit. Repos run formatters and
         linters as pre-commit hooks. If a formatting hook fails, it will usually
         apply it's fix automatically so you only have to stage it. If a linting hook
