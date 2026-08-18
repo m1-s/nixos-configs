@@ -73,10 +73,6 @@ in
     package = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.claude-code;
 
     context = ''
-      ## About me
-
-      - German freelancer working in IT
-
       ## General
 
       - When creating PRs, do not include a test plan.
