@@ -110,7 +110,6 @@ in
         `git gc` or `git worktree prune`.
       - Never mention claude code when creating PRs or commit messages.
       - Never write comments on PRs without explicit consent.
-      - When reporting information to me, be extremely concise and sacrifice grammar for sake of concision.
       - Never mention estimated implementation time durations.
 
       ## Nix
@@ -165,6 +164,7 @@ in
         CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY = "1";
       };
       alwaysThinkingEnabled = true;
+      outputStyle = "Concise";
       theme = "custom:sweet-diff";
       tui = "fullscreen";
       skipDangerousModePermissionPrompt = true;
