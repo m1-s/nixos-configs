@@ -1,6 +1,8 @@
 {
   imports = [ ./thinkbook-hardware-config.nix ];
   boot = {
+    blacklistedKernelModules = [ "xe" ];
+    initrd.kernelModules = [ "i915" ];
     loader = {
       systemd-boot = {
         enable = true;

@@ -2,20 +2,21 @@
 
 let
   # claude sets the terminal title to the session topic, which tmux tracks as
-  # pane_title. Use it as the window name. The leading glyph is kept: it spins
-  # while claude works and settles on ✳ when it is done. The pane loop means any
-  # claude pane in the window wins, so opening a second pane cannot take the
+  # pane_title. Use it as the window name, glyph included. The pane loop means
+  # any claude pane in the window wins, so opening a second pane cannot take the
   # name over; only windows without any claude pane fall back to tmux's default.
   hasClaude = "#{P:#{?#{==:#{pane_current_command},claude},1,}}";
   claudeTopic = "#{P:#{?#{==:#{pane_current_command},claude},#{=/27/…:pane_title},}}";
   tmuxDefaultName = "#{?pane_in_mode,[tmux],#{pane_current_command}}#{?pane_dead,[dead],}";
   windowName = "#{?${hasClaude},${claudeTopic},${tmuxDefaultName}}";
 
-  # claude prefixes the title with ✳ when it waits for input and with a spinner
-  # frame while it works. The spinner is too fast to follow in a status line, so
-  # the state is carried by color instead: yellow while thinking, green when done.
-  claudeIdle = "#{m:✳*,${claudeTopic}}";
-  claudeColor = "#[fg=#{?${claudeIdle},green,yellow}]";
+  # claude pins its title glyph to ✳ under a multiplexer, so the title carries no
+  # state anymore. The state comes from the @claude_busy pane option that claude's
+  # hooks set (see claude-code.nix): yellow while thinking, green when done. Busy
+  # sets the option and idle unsets it, so the pane loop cannot concatenate two
+  # idle panes into a truthy "00".
+  claudeBusy = "#{P:#{?#{==:#{pane_current_command},claude},#{@claude_busy},}}";
+  claudeColor = "#[fg=#{?${claudeBusy},yellow,green}]";
 
   # tmux only re-evaluates automatic-rename-format when a pane produces output,
   # so an idle claude window would keep a stale name. Render the same thing in
@@ -64,13 +65,9 @@ in
       # both state colors readable.
       set -g mode-style "noattr,bg=#3a4152,fg=default"
 
+      # re-expand the status line every second so a state change in a background
+      # window shows up without waiting for that window to produce output
       set -g status-interval 1
-
-      # claude advances its ◐/◑ title spinner only while the terminal reports
-      # focus, so the glyph of every background window freezes. Hand the focus
-      # straight back to claude panes after tmux takes it away; every other
-      # program keeps seeing real focus events (nvim needs them for checktime).
-      set-hook -g pane-focus-out "if -F '#{==:#{pane_current_command},claude}' 'send-keys -H 1b 5b 49'"
 
       set -g repeat-time 0
       set -g pane-base-index 1

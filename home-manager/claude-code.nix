@@ -62,6 +62,26 @@ let
 
     printf '%s' "$line"
   '';
+
+  # claude no longer animates its terminal title under a multiplexer, so tmux
+  # cannot read the thinking state off pane_title. Publish it as a per-pane
+  # option instead, which home-manager/tmux.nix colors the window name by.
+  tmuxStateScript = pkgs.writeShellScript "claude-tmux-state" ''
+    [ -n "''${TMUX:-}" ] && [ -n "''${TMUX_PANE:-}" ] || exit 0
+
+    if [ "$1" = busy ]; then
+      ${pkgs.tmux}/bin/tmux set-option -p -t "$TMUX_PANE" @claude_busy 1 2>/dev/null || true
+    else
+      ${pkgs.tmux}/bin/tmux set-option -pu -t "$TMUX_PANE" @claude_busy 2>/dev/null || true
+    fi
+  '';
+
+  tmuxStateHook = state: [{
+    hooks = [{
+      type = "command";
+      command = "${tmuxStateScript} ${state}";
+    }];
+  }];
 in
 {
   home.shellAliases.claude = "claude --dangerously-skip-permissions";
@@ -171,6 +191,13 @@ in
       statusLine = {
         type = "command";
         command = "bash ${statuslineScript}";
+      };
+      hooks = {
+        UserPromptSubmit = tmuxStateHook "busy";
+        Stop = tmuxStateHook "idle";
+        Notification = tmuxStateHook "idle";
+        SessionStart = tmuxStateHook "idle";
+        SessionEnd = tmuxStateHook "idle";
       };
       attribution = {
         commit = "";
