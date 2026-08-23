@@ -139,6 +139,7 @@
           modules = [
             home-manager.nixosModules.home-manager
             ./hosts/thinkbook.nix
+            ./nixos-modules/battery-conservation.nix
             ./nixos-modules/font.nix
             ./nixos-modules/kde.nix
             ./nixos-modules/sound.nix
