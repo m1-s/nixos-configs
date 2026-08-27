@@ -121,10 +121,15 @@
             nixos-wsl.nixosModules.default
             ./common.nix
             ./hosts/tower.nix
+            {
+              nixpkgs.config.allowUnfree = true;
+              nixpkgs.overlays = [ feedbackOverlay ];
+            }
             (_: {
               wsl.enable = true;
               home-manager = {
                 extraSpecialArgs = { inherit inputs; };
+                useGlobalPkgs = true;
                 users.m1-s =
                   { ... }:
                   {
