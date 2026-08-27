@@ -12,7 +12,12 @@ let
     version = "1.2.0";
     src = inputs.gh-image-skill;
     vendorHash = "sha256-TzVyLcfpa3eN9bHQJnuPuGeiOgxYbBurFdKq0EfpJL4=";
-    ldflags = [ "-s" "-w" "-X" "main.version=1.2.0" ];
+    ldflags = [
+      "-s"
+      "-w"
+      "-X"
+      "main.version=1.2.0"
+    ];
     doCheck = false;
     meta.mainProgram = "gh-image";
   };

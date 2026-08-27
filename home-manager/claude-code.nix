@@ -76,12 +76,16 @@ let
     fi
   '';
 
-  tmuxStateHook = state: [{
-    hooks = [{
-      type = "command";
-      command = "${tmuxStateScript} ${state}";
-    }];
-  }];
+  tmuxStateHook = state: [
+    {
+      hooks = [
+        {
+          type = "command";
+          command = "${tmuxStateScript} ${state}";
+        }
+      ];
+    }
+  ];
 in
 {
   home.shellAliases.claude = "claude --dangerously-skip-permissions";
@@ -169,11 +173,9 @@ in
         If a question can be answered by exploring the codebase, explore the codebase instead.
       '';
 
-      github-pr-review =
-        "${inputs.claude-git-pr-skill}/github-pr-review/skills/github-pr-review/SKILL.md";
+      github-pr-review = "${inputs.claude-git-pr-skill}/github-pr-review/skills/github-pr-review/SKILL.md";
 
-      github-image-upload =
-        "${inputs.gh-image-skill}/skills/github-image-upload/SKILL.md";
+      github-image-upload = "${inputs.gh-image-skill}/skills/github-image-upload/SKILL.md";
     };
 
     plugins = [ "${inputs.claude-code-plugins}/plugins/frontend-design" ];

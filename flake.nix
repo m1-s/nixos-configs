@@ -54,14 +54,15 @@
   };
 
   outputs =
-    inputs@{ self
-    , nixpkgs
-    , home-manager
-    , nixos-wsl
-    , plasma-manager
-    , pre-commit-hooks
-    , feedback
-    , ...
+    inputs@{
+      self,
+      nixpkgs,
+      home-manager,
+      nixos-wsl,
+      plasma-manager,
+      pre-commit-hooks,
+      feedback,
+      ...
     }:
     let
       system = "x86_64-linux";
@@ -72,21 +73,23 @@
       feedbackOverlay = _: _: { feedback = feedback.packages.${system}.default; };
       lutrisOverlay = _: prev: {
         lutris = prev.lutris.override {
-          extraLibraries = pkgs: with pkgs; [ libadwaita gtk4 ];
+          extraLibraries =
+            pkgs: with pkgs; [
+              libadwaita
+              gtk4
+            ];
         };
       };
 
       modulesFromDir =
         let
           inherit (nixpkgs) lib;
-          getNixFilesInDir = dir: builtins.filter
-            (file: lib.hasSuffix ".nix" file)
-            (builtins.attrNames (builtins.readDir dir));
+          getNixFilesInDir =
+            dir: builtins.filter (file: lib.hasSuffix ".nix" file) (builtins.attrNames (builtins.readDir dir));
           genKey = str: lib.replaceStrings [ ".nix" ] [ "" ] str;
           moduleFrom = dir: str: { "${genKey str}" = "${dir}/${str}"; };
         in
-        dir:
-        builtins.foldl' (x: y: x // (moduleFrom dir y)) { } (getNixFilesInDir dir);
+        dir: builtins.foldl' (x: y: x // (moduleFrom dir y)) { } (getNixFilesInDir dir);
     in
     {
       homeManagerModules = modulesFromDir ./home-manager;
@@ -95,7 +98,7 @@
         pre-commit-check = pre-commit-hooks.lib.${system}.run {
           src = ./.;
           hooks = {
-            nixpkgs-fmt.enable = true;
+            nixfmt.enable = true;
             statix = {
               enable = true;
               settings.ignore = [ "hosts/thinkbook-hardware-config.nix" ];
@@ -122,13 +125,15 @@
               wsl.enable = true;
               home-manager = {
                 extraSpecialArgs = { inherit inputs; };
-                users.m1-s = { ... }: {
-                  home.stateVersion = "23.11";
-                  programs.home-manager.enable = true;
-                  imports = with self.homeManagerModules; [
-                    default
-                  ];
-                };
+                users.m1-s =
+                  { ... }:
+                  {
+                    home.stateVersion = "23.11";
+                    programs.home-manager.enable = true;
+                    imports = with self.homeManagerModules; [
+                      default
+                    ];
+                  };
               };
             })
           ];
@@ -148,7 +153,10 @@
             ./common.nix
             {
               nixpkgs.config.allowUnfree = true;
-              nixpkgs.overlays = [ feedbackOverlay lutrisOverlay ];
+              nixpkgs.overlays = [
+                feedbackOverlay
+                lutrisOverlay
+              ];
             }
             (_: {
               home-manager = {
@@ -157,15 +165,17 @@
                 sharedModules = [
                   plasma-manager.homeModules.plasma-manager
                 ];
-                users.m1-s = { ... }: {
-                  home.stateVersion = "23.11";
-                  imports = with self.homeManagerModules; [
-                    default
-                    plasma
-                    chromium
-                    gaming
-                  ];
-                };
+                users.m1-s =
+                  { ... }:
+                  {
+                    home.stateVersion = "23.11";
+                    imports = with self.homeManagerModules; [
+                      default
+                      plasma
+                      chromium
+                      gaming
+                    ];
+                  };
               };
             })
           ];

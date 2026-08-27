@@ -1,5 +1,6 @@
-{ pkgs, ... }: {
-  home.packages = with pkgs;[
+{ pkgs, ... }:
+{
+  home.packages = with pkgs; [
     rusty-path-of-building
     starsector
     winetricks

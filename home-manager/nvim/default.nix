@@ -140,7 +140,8 @@
     ];
     extraConfig = ''
       source ${./sweet-theme.vim}
-    '' + builtins.readFile ./vimrc.vim;
+    ''
+    + builtins.readFile ./vimrc.vim;
   };
 
   home.packages = with pkgs; [

@@ -32,9 +32,17 @@ in
     lazygit = {
       enable = true;
       settings = {
-        gui.skipDiscardChangeWarning = true;
+        gui = {
+          skipDiscardChangeWarning = true;
+          theme = {
+            # default blue selection bg is too bright against the white fg,
+            # esp. in merge conflict hunks
+            selectedLineBgColor = [ "#2f3547" ];
+            selectedRangeBgColor = [ "#2f3547" ];
+          };
+        };
         refresher.refreshInterval = 60;
-        git.pagers = [{ pager = "delta --dark --paging=never"; }];
+        git.pagers = [ { pager = "delta --dark --paging=never"; } ];
       };
     };
 
@@ -126,7 +134,8 @@ in
       machine="$1"; shift
       exec nom build --max-jobs 0 --builders-use-substitutes --builders "ssh-ng://$machine x86_64-linux - 64 1 nixos-test,kvm" "$@"
     '')
-  ] ++ (with pkgs; [
+  ]
+  ++ (with pkgs; [
     bat
     cachix
     delta
@@ -150,8 +159,8 @@ in
     nix-diff
     nix-output-monitor
     nix-tree
+    nixfmt
     nixos-anywhere
-    nixpkgs-fmt
     scanmem
     shfmt
     signal-desktop

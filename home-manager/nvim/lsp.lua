@@ -34,7 +34,7 @@ vim.api.nvim_create_autocmd("BufWritePost", {
     group = "AutoFormat",
     pattern = "*.nix",
     callback = function()
-        vim.cmd("silent !nixpkgs-fmt %")
+        vim.cmd("silent !nixfmt %")
         vim.cmd("edit")
     end,
 })

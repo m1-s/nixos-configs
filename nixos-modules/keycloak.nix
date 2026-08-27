@@ -1,4 +1,5 @@
-{ certs }: { pkgs, ... }:
+{ certs }:
+{ pkgs, ... }:
 let
   initialAdminPassword = "h4Iho\"JFn't2>iQIR9";
 in
@@ -23,7 +24,11 @@ in
         type = "postgresql";
         username = "bogus";
         name = "also bogus";
-        passwordFile = let file = pkgs.writeText "dbPassword" "foo"; in "${file}";
+        passwordFile =
+          let
+            file = pkgs.writeText "dbPassword" "foo";
+          in
+          "${file}";
       };
     };
   };
