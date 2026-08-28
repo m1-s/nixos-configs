@@ -1,6 +1,8 @@
 { pkgs, ... }:
 
 {
+  imports = [ ./plasma-toolbar.nix ];
+
   # wayland native clipboard tools. Without wl-copy, programs fall back to
   # xclip over XWayland, whose selection dies with the short lived xclip
   # process, so copied text never reaches the wayland clipboard reliably.
