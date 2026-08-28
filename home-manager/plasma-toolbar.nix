@@ -49,12 +49,7 @@ in
               };
               songText = {
                 maximumWidth = 220;
-                scrolling = {
-                  enable = true;
-                  behavior = "alwaysScrollExceptOnHover";
-                  speed = 3;
-                  resetOnPause = true;
-                };
+                scrolling.enable = false;
               };
               musicControls.showPlaybackControls = true;
             };
