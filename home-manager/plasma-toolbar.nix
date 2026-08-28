@@ -1,7 +1,15 @@
+{ lib, pkgs, ... }:
+
+let
+  # the systemmonitor applet stores sensor ids as a json array *string*, not
+  # as a kconfig list
+  sensorIds = ids: "[${lib.concatMapStringsSep ", " (id: "\"${id}\"") ids}]";
+in
 {
   programs.plasma = {
     panels = [
       {
+        height = 36;
         location = "bottom";
         screen = 0;
         widgets = [
@@ -62,9 +70,31 @@
                 title = "Individual Core Usage";
                 updateRateLimit = 1500;
               };
+              SensorColors = {
+                "cpu/cpu0/usage" = "61,174,233";
+                "cpu/cpu1/usage" = "61,122,233";
+                "cpu/cpu10/usage" = "233,120,61";
+                "cpu/cpu11/usage" = "233,172,61";
+                "cpu/cpu12/usage" = "233,223,61";
+                "cpu/cpu13/usage" = "191,233,61";
+                "cpu/cpu14/usage" = "140,233,61";
+                "cpu/cpu15/usage" = "88,233,61";
+                "cpu/cpu16/usage" = "61,233,86";
+                "cpu/cpu17/usage" = "61,233,137";
+                "cpu/cpu18/usage" = "61,233,189";
+                "cpu/cpu19/usage" = "61,226,233";
+                "cpu/cpu2/usage" = "61,71,233";
+                "cpu/cpu3/usage" = "103,61,233";
+                "cpu/cpu4/usage" = "154,61,233";
+                "cpu/cpu5/usage" = "206,61,233";
+                "cpu/cpu6/usage" = "233,61,208";
+                "cpu/cpu7/usage" = "233,61,157";
+                "cpu/cpu8/usage" = "233,61,105";
+                "cpu/cpu9/usage" = "233,68,61";
+              };
               Sensors = {
-                highPrioritySensorIds = [ "cpu/cpu.*/usage" ];
-                totalSensors = [ "cpu/all/usage" ];
+                highPrioritySensorIds = sensorIds [ "cpu/cpu.*/usage" ];
+                totalSensors = sensorIds [ "cpu/all/usage" ];
               };
               "org.kde.ksysguard.barchart/General" = {
                 showGridLines = false;
@@ -88,7 +118,7 @@
                 "network/all/download" = "197,14,210";
                 "network/all/upload" = "27,210,14";
               };
-              Sensors.highPrioritySensorIds = [
+              Sensors.highPrioritySensorIds = sensorIds [
                 "network/all/download"
                 "network/all/upload"
               ];
@@ -108,16 +138,16 @@
               };
               SensorColors."memory/physical/used" = "61,174,233";
               Sensors = {
-                highPrioritySensorIds = [ "memory/physical/used" ];
-                lowPrioritySensorIds = [ "memory/physical/total" ];
-                totalSensors = [ "memory/physical/usedPercent" ];
+                highPrioritySensorIds = sensorIds [ "memory/physical/used" ];
+                lowPrioritySensorIds = sensorIds [ "memory/physical/total" ];
+                totalSensors = sensorIds [ "memory/physical/usedPercent" ];
               };
               "FaceGrid/Appearance" = {
                 chartFace = "org.kde.ksysguard.linechart";
                 showTitle = false;
               };
               "FaceGrid/SensorColors"."memory/physical/used" = "61,174,233";
-              "FaceGrid/Sensors".highPrioritySensorIds = [ "memory/physical/used" ];
+              "FaceGrid/Sensors".highPrioritySensorIds = sensorIds [ "memory/physical/used" ];
             };
           }
           {
@@ -138,9 +168,9 @@
                 "disk/all/usedPercent" = "233,120,61";
               };
               Sensors = {
-                highPrioritySensorIds = [ "disk/all/usedPercent" ];
-                lowPrioritySensorIds = [ "disk/all/total" ];
-                totalSensors = [ "disk/all/usedPercent" ];
+                highPrioritySensorIds = sensorIds [ "disk/all/usedPercent" ];
+                lowPrioritySensorIds = sensorIds [ "disk/all/total" ];
+                totalSensors = sensorIds [ "disk/all/usedPercent" ];
               };
               "FaceGrid/Appearance" = {
                 chartFace = "org.kde.ksysguard.linechart";
@@ -152,7 +182,7 @@
                 "disk/898c6aee-5669-4d4e-97f3-5639f25206f1/usedPercent" = "61,174,233";
                 "disk/all/usedPercent" = "233,120,61";
               };
-              "FaceGrid/Sensors".highPrioritySensorIds = [ "disk/all/usedPercent" ];
+              "FaceGrid/Sensors".highPrioritySensorIds = sensorIds [ "disk/all/usedPercent" ];
             };
           }
           {
@@ -208,4 +238,38 @@
       }
     ];
   };
+
+  # plasma-manager adds the panel widgets via addWidget in a *live* plasmashell,
+  # which writes its default linechart face back over the piechart we set. run
+  # after the panel script but before run_all.sh restarts plasmashell, so the
+  # restart picks our value up. applet ids change on every recreation, so look
+  # them up by plugin name.
+  home.file.".local/share/plasma-manager/scripts/4_fix_chartface.sh" = {
+    executable = true;
+    text = ''
+      #!/bin/sh
+      appletsrc="$HOME/.config/plasma-org.kde.plasma.desktop-appletsrc"
+      [ -f "$appletsrc" ] || exit 0
+
+      for plugin in \
+        org.kde.plasma.systemmonitor.memory \
+        org.kde.plasma.systemmonitor.diskusage; do
+        awk -v p="$plugin" '
+          /^\[Containments\]\[[0-9]+\]\[Applets\]\[[0-9]+\]$/ {
+            c = $0; a = $0
+            sub(/^\[Containments\]\[/, "", c); sub(/\].*/, "", c)
+            sub(/^.*\[Applets\]\[/, "", a); sub(/\]$/, "", a)
+            next
+          }
+          $0 == "plugin=" p { print c, a }
+        ' "$appletsrc" | while read -r c a; do
+          ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 --file "$appletsrc" \
+            --group Containments --group "$c" --group Applets --group "$a" \
+            --group Configuration --group Appearance \
+            --key chartFace org.kde.ksysguard.piechart
+        done
+      done
+    '';
+  };
+
 }
