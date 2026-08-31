@@ -21,6 +21,9 @@ in
   # Each keybinding takes a list, so the tmux keys sit next to herdr's defaults
   # instead of replacing them. prefix+s is the exception: tmux's session picker
   # collides with herdr's settings, which moves to prefix+shift+s.
+  # tmux's two choose-tree binds split by depth: s picks a session (workspace),
+  # w picks a window (tab). herdr has no tab picker, so w opens the goto tree,
+  # which is the only surface listing tabs.
   xdg.configFile."herdr/config.toml".text = ''
     onboarding = false
 
@@ -48,7 +51,8 @@ in
     focus_pane_down = [ "prefix+down", "prefix+j" ]
     focus_pane_up = [ "prefix+up", "prefix+k" ]
     focus_pane_right = [ "prefix+right", "prefix+l" ]
-    workspace_picker = [ "prefix+s", "prefix+w" ]
+    workspace_picker = "prefix+s"
+    goto = [ "prefix+w", "prefix+g" ]
     settings = "prefix+shift+s"
   '';
 
