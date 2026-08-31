@@ -13,6 +13,32 @@ let
     exec ${pkgs.bash}/bin/bash \
       ${herdr.src}/src/integration/assets/claude/herdr-agent-state.sh "$@"
   '';
+
+  # herdr has no equivalent of tmux's automatic-rename-format: a tab shows its
+  # custom_name or its index, never a pane title. So push the topic instead,
+  # taken from the title claude sets on its pane with the spinner glyph already
+  # stripped. State stays in herdr's own status dots, not in the name.
+  tabTitleScript = pkgs.writeShellScript "herdr-claude-tab-title" ''
+    [ "''${HERDR_ENV:-}" = 1 ] || exit 0
+
+    pane=$(${herdr}/bin/herdr pane current --current 2>/dev/null) || exit 0
+    topic=$(${pkgs.jq}/bin/jq -r '.result.pane.terminal_title_stripped // empty' <<< "$pane")
+    tab=$(${pkgs.jq}/bin/jq -r '.result.pane.tab_id // empty' <<< "$pane")
+    [ -n "$topic" ] && [ -n "$tab" ] || exit 0
+
+    ${herdr}/bin/herdr tab rename "$tab" "$topic" >/dev/null 2>&1 || true
+  '';
+
+  tabTitleHook = [
+    {
+      hooks = [
+        {
+          type = "command";
+          command = "${tabTitleScript}";
+        }
+      ];
+    }
+  ];
 in
 {
   home.packages = [ herdr ];
@@ -59,17 +85,22 @@ in
   programs.claude-code = {
     skills.herdr = "${herdr}/share/herdr/skills/herdr/SKILL.md";
 
-    settings.hooks.SessionStart = [
-      {
-        matcher = "*";
-        hooks = [
-          {
-            type = "command";
-            command = "${claudeHook} session";
-            timeout = 10;
-          }
-        ];
-      }
-    ];
+    settings.hooks = {
+      SessionStart = [
+        {
+          matcher = "*";
+          hooks = [
+            {
+              type = "command";
+              command = "${claudeHook} session";
+              timeout = 10;
+            }
+          ];
+        }
+      ];
+
+      Stop = tabTitleHook;
+      UserPromptSubmit = tabTitleHook;
+    };
   };
 }
