@@ -179,6 +179,7 @@
                       plasma
                       chromium
                       gaming
+                      herdr
                     ];
                   };
               };
