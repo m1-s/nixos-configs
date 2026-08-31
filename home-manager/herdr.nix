@@ -61,6 +61,11 @@ in
     [ui.sound]
     enabled = false
 
+    # Default puts the tab beside the workspace, where it truncates twice over.
+    # Only claude ever runs here, so its row is free for the tab to use in full.
+    [ui.sidebar.agents]
+    rows = [ [ "state_icon", "workspace" ], [ "tab" ] ]
+
     # Updates come from nixpkgs, so the background check is pure egress.
     [update]
     version_check = false
