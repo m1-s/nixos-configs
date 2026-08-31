@@ -41,3 +41,4 @@ Module layout follows three buckets:
 - Adding a new home-manager feature: drop a `.nix` file in `home-manager/`, then either import it from `home-manager/default.nix` (if it should apply everywhere) or add its filename to a host's `homeManagerModules` import list in `flake.nix`.
 - Adding a new system feature: drop a `.nix` file in `nixos-modules/`, then import it from `common.nix` (all hosts) or a specific `hosts/*.nix`.
 - This repo's own Claude Code config (global context, skills, settings, statusline) is itself managed declaratively in `home-manager/claude-code.nix` — edit there, not in `~/.claude`, to change agent behavior.
+- Commits carry a message only, never a description. Write the subject line and stop — no body, no bullet list, no trailing explanation.
