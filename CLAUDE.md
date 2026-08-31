@@ -19,7 +19,7 @@ Build a host without switching (use a pueue group per the global instructions, t
 nix build .#nixosConfigurations.thinkbook.config.system.build.toplevel
 ```
 
-Lint / format runs as pre-commit hooks (configured in `flake.nix` `checks.pre-commit-check`): `nixpkgs-fmt`, `statix`, `deadnix`. Run all checks with `nix flake check`. The dev shell (`nix develop`, auto-loaded via direnv) installs the hooks. `hosts/thinkbook-hardware-config.nix` is excluded from statix/deadnix.
+Lint / format runs as pre-commit hooks (configured in `flake.nix` `checks.pre-commit-check`): `nixfmt`, `statix`, `deadnix`. Run all checks with `nix flake check`. The dev shell (`nix develop`, auto-loaded via direnv) installs the hooks. `hosts/thinkbook-hardware-config.nix` is excluded from statix/deadnix.
 
 ## Architecture
 
