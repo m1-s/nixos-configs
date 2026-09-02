@@ -102,10 +102,27 @@ in
       - When creating PRs, do not include a test plan.
       - PR descriptions are a short changelog: concise bullet points, one per
         change. No prose sections, no summary paragraph.
-      - When a PR changes the UI, include screenshots of the changed UI in the
-        PR description. Use the github-image-upload skill to upload them.
-        Lay out before/after screenshots side by side, in a two-column markdown
-        table with "Before" and "After" headers.
+      - A PR description is a work product, not a reply to me. Brevity rules
+        from the active output style govern your responses in the terminal and
+        never apply to it. Nothing below is decoration to be trimmed for
+        concision.
+      - Screenshots explain a change better than any text ever could. That is
+        the whole point of the rule below: a reviewer sees the effect instead
+        of reading your claim about it. Prose is the fallback, never the
+        substitute.
+      - Whenever a change can be shown in the running app, its PR description
+        MUST include screenshots. This is not limited to UI work: a logical
+        change qualifies the moment its effect is observable on screen —
+        different output, a flow that now completes, an error that no longer
+        appears, a value that is now correct. Ask "could I photograph the
+        difference?", and if yes, screenshots are required content. Never omit
+        them, and never substitute a prose description of the change. Use the
+        github-image-upload skill to upload them. Lay out before/after
+        screenshots side by side, in a two-column markdown table with "Before"
+        and "After" headers. That table is required structure, so build it even
+        when a table would otherwise look excessive. If the before state is
+        genuinely unreachable, include the after shot alone and say in one line
+        why there is no before.
       - Before updating a PR description (e.g. inserting screenshots), fetch its
         current body first — I may have edited it meanwhile. Edit on top of that
         state, never overwrite my changes.
