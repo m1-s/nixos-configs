@@ -26,6 +26,11 @@ let
     tab=$(${pkgs.jq}/bin/jq -r '.result.pane.tab_id // empty' <<< "$pane")
     [ -n "$topic" ] && [ -n "$tab" ] || exit 0
 
+    # claude titles its pane "Claude Code" until it derives a topic. Copying
+    # that placeholder replaces the tab index with a strictly worse name, and
+    # it sticks, since a tab name cannot be cleared back to the index.
+    [ "$topic" != "Claude Code" ] || exit 0
+
     ${herdr}/bin/herdr tab rename "$tab" "$topic" >/dev/null 2>&1 || true
   '';
 
@@ -104,8 +109,12 @@ in
         }
       ];
 
+      # The topic usually appears mid-turn, so turn boundaries alone leave a
+      # long-running turn stuck on whatever the title was when it started.
       Stop = tabTitleHook;
       UserPromptSubmit = tabTitleHook;
+      PostToolUse = tabTitleHook;
+      Notification = tabTitleHook;
     };
   };
 }
