@@ -26,11 +26,9 @@ let
     tab=$(${pkgs.jq}/bin/jq -r '.result.pane.tab_id // empty' <<< "$pane")
     [ -n "$topic" ] && [ -n "$tab" ] || exit 0
 
-    # claude titles its pane "Claude Code" until it derives a topic. Copying
-    # that placeholder replaces the tab index with a strictly worse name, and
-    # it sticks, since a tab name cannot be cleared back to the index.
-    [ "$topic" != "Claude Code" ] || exit 0
-
+    # A fresh or cleared session has no topic and claude titles its pane
+    # "Claude Code". Copying that verbatim is what resets the tab, so the
+    # previous topic cannot linger on a session that no longer holds it.
     ${herdr}/bin/herdr tab rename "$tab" "$topic" >/dev/null 2>&1 || true
   '';
 
@@ -96,6 +94,9 @@ in
     skills.herdr = "${herdr}/share/herdr/skills/herdr/SKILL.md";
 
     settings.hooks = {
+      # Syncing on SessionStart is what clears a stale topic promptly: /clear
+      # fires no other hook, so without it the old name survives until the
+      # next prompt. A resumed session already carries its real topic here.
       SessionStart = [
         {
           matcher = "*";
@@ -107,7 +108,8 @@ in
             }
           ];
         }
-      ];
+      ]
+      ++ tabTitleHook;
 
       # The topic usually appears mid-turn, so turn boundaries alone leave a
       # long-running turn stuck on whatever the title was when it started.
