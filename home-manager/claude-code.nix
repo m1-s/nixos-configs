@@ -164,6 +164,10 @@ in
       - Never run a project's full test suite since that takes a long time.
         Instead, only run the tests that are directly connected to the
         change/refactoring you made.
+      - Skip tests altogether when a change only touches comments: there is no
+        behaviour to verify. Same for other non-code edits such as
+        documentation or formatting. Run tests as soon as any executable line
+        is involved, however small.
       - Prefer vertically structured code: organize code by feature/domain
         (everything for one feature lives together as a self-contained slice)
         rather than horizontally by technical layer (controllers, services,
