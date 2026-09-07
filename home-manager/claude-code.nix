@@ -155,6 +155,9 @@ in
 
       ## Nix
 
+      - You are on a NixOS host. Tools that are not installed can be run with
+        `nix run nixpkgs#<tool>`, or made available in a temporary dev shell
+        with `nix-shell -p <tool>`.
       - To build on a remote machine, use `nbr <machine> <flake-ref>` (nix build remote).
         Example: `nbr myMachine .#foo`
 
