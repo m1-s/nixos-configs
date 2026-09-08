@@ -123,6 +123,8 @@ in
         when a table would otherwise look excessive. If the before state is
         genuinely unreachable, include the after shot alone and say in one line
         why there is no before.
+      - When a change has nothing observable to photograph, never say so in the
+        PR. Omit any mention of screenshots.
       - Before updating a PR description (e.g. inserting screenshots), fetch its
         current body first — I may have edited it meanwhile. Edit on top of that
         state, never overwrite my changes.
