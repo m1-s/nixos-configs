@@ -154,6 +154,8 @@ in
       - Never mention claude code when creating PRs or commit messages.
       - Never write comments on PRs without explicit consent.
       - Never mention estimated implementation time durations.
+      - Never ssh into a remote host unless I explicitly allow it in the current
+        session. A previous session's permission does not carry over.
 
       ## Nix
 
