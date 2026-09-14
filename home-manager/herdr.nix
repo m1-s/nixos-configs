@@ -32,6 +32,22 @@ let
     ${herdr}/bin/herdr tab rename "$tab" "$topic" >/dev/null 2>&1 || true
   '';
 
+  # Renaming to "" leaves the tab blank rather than restoring the default, so
+  # the index herdr would show on its own is written back explicitly.
+  resetTabTitleScript = pkgs.writeShellScript "herdr-claude-tab-title-reset" ''
+    [ "''${HERDR_ENV:-}" = 1 ] || exit 0
+
+    pane=$(${herdr}/bin/herdr pane current --current 2>/dev/null) || exit 0
+    tab=$(${pkgs.jq}/bin/jq -r '.result.pane.tab_id // empty' <<< "$pane")
+    [ -n "$tab" ] || exit 0
+
+    number=$(${herdr}/bin/herdr tab get "$tab" 2>/dev/null \
+      | ${pkgs.jq}/bin/jq -r '.result.tab.number // empty')
+    [ -n "$number" ] || exit 0
+
+    ${herdr}/bin/herdr tab rename "$tab" "$number" >/dev/null 2>&1 || true
+  '';
+
   tabTitleHook = [
     {
       hooks = [
@@ -117,6 +133,17 @@ in
       UserPromptSubmit = tabTitleHook;
       PostToolUse = tabTitleHook;
       Notification = tabTitleHook;
+
+      SessionEnd = [
+        {
+          hooks = [
+            {
+              type = "command";
+              command = "${resetTabTitleScript}";
+            }
+          ];
+        }
+      ];
     };
   };
 }
