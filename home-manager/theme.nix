@@ -5,7 +5,7 @@
   # from this, so flipping it here flips the whole desktop.
   options.theme.dark = lib.mkOption {
     type = lib.types.bool;
-    default = false;
+    default = true;
     description = "Whether the desktop uses its dark variant.";
   };
 }
