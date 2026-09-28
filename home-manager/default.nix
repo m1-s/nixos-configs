@@ -40,15 +40,22 @@ in
       settings = {
         gui = {
           skipDiscardChangeWarning = true;
-          theme = {
-            # default blue selection bg is too bright against the white fg,
-            # esp. in merge conflict hunks
-            selectedLineBgColor = [ "#2f3547" ];
-            selectedRangeBgColor = [ "#2f3547" ];
-          };
+          theme =
+            let
+              # default blue selection bg is too bright against the white fg,
+              # esp. in merge conflict hunks
+              selectionBg = if config.theme.dark then "#2f3547" else "#dfe3ea";
+            in
+            {
+              selectedLineBgColor = [ selectionBg ];
+              selectedRangeBgColor = [ selectionBg ];
+            };
         };
         refresher.refreshInterval = 60;
-        git.pagers = [ { pager = "delta --dark --paging=never"; } ];
+        # delta picks both its diff backgrounds and its syntax theme from this
+        git.pagers = [
+          { pager = "delta ${if config.theme.dark then "--dark" else "--light"} --paging=never"; }
+        ];
       };
     };
 
