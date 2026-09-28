@@ -16,6 +16,7 @@ in
     ./tmux.nix
     ./ghostty.nix
     ./claude-code.nix
+    ./process-compose.nix
   ];
 
   home.shellAliases = rec {
