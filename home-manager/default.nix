@@ -175,6 +175,7 @@ in
     shfmt
     signal-desktop
     sl
+    slack
     spotify
     thunderbird
     tig
