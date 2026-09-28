@@ -37,7 +37,10 @@ in
         "15=#dcdfe4"
       ];
     };
-    # sweet's hues darkened until they carry on a light background
+    # sweet's hues darkened until they carry on a light background. 0 stays
+    # dark and 7 stays light whichever way the switch points: programs paint
+    # text in the named color, so agnoster's white-on-colored segments turn
+    # illegible the moment 7 is anything but light.
     themes.sweet-light = {
       background = "#f5f6f8";
       foreground = "#2f3547";
@@ -51,7 +54,7 @@ in
         "4=#1f5fc0"
         "5=#8b21ad"
         "6=#00738a"
-        "7=#4a5163"
+        "7=#d7dce6"
         "8=#3a3f4b"
         "9=#c01742"
         "10=#1f8f4d"
@@ -59,7 +62,7 @@ in
         "12=#1f5fc0"
         "13=#8b21ad"
         "14=#00738a"
-        "15=#4a5163"
+        "15=#d7dce6"
       ];
     };
     settings = {
