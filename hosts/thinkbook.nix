@@ -15,8 +15,12 @@
     tmp.cleanOnBoot = true;
   };
   system.stateVersion = "23.11";
-  networking.hostName = "thinkbook";
-  networking.networkmanager.enable = true;
+  networking = {
+    hostName = "thinkbook";
+    networkmanager.enable = true;
+    # mDNS: chromium cast discovery
+    firewall.allowedUDPPorts = [ 5353 ];
+  };
   services.automatic-timezoned.enable = true;
   hardware.bluetooth.enable = true;
   programs.gnupg.agent.enable = true;
