@@ -44,6 +44,10 @@ in
     configFile = {
       "kxkbrc"."Layout"."VariantList" = "altgr-intl";
       "plasma-localerc"."Formats"."LANG" = "en_US.UTF-8";
+      # KDE writes these into the session environment, so they have to name
+      # locales glibc actually generates.
+      "plasma-localerc"."Formats"."LC_MEASUREMENT" = "de_DE.UTF-8";
+      "plasma-localerc"."Formats"."LC_MONETARY" = "de_DE.UTF-8";
       "kwalletrc"."Wallet"."First Use" = false;
       kscreenlockerrc."Greeter/Wallpaper/org.kde.color/General".Color = "0,0,0";
     };
