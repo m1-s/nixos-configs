@@ -1,9 +1,15 @@
-{ pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   configDir = "~/repos/nixos-configs";
 in
 {
   imports = [
+    ./theme.nix
     ./nvim
     ./git.nix
     ./gh.nix
@@ -71,7 +77,11 @@ in
           "web-search"
         ];
         theme = "agnoster";
-        extraConfig = "DISABLE_MAGIC_FUNCTIONS=true;";
+        # agnoster paints its segments in the terminal's *default* foreground,
+        # which on a light palette is dark text on its dark context segment.
+        # SOLARIZED_THEME=light is agnoster's own switch to white segment text.
+        extraConfig =
+          "DISABLE_MAGIC_FUNCTIONS=true;" + lib.optionalString (!config.theme.dark) " SOLARIZED_THEME=light;";
       };
     };
 

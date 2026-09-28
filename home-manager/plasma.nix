@@ -1,5 +1,7 @@
-{ pkgs, ... }:
-
+{ config, pkgs, ... }:
+let
+  inherit (config.theme) dark;
+in
 {
   imports = [ ./plasma-toolbar.nix ];
 
@@ -8,12 +10,30 @@
   # process, so copied text never reaches the wayland clipboard reliably.
   home.packages = [ pkgs.wl-clipboard ];
 
+  # kwin and plasma-apply-colorscheme resolve these by name from the data
+  # dirs, so both have to be on disk before the workspace can select them.
+  home.file = {
+    ".local/share/color-schemes/Sweet.colors".source = ./sweet.colors;
+    ".local/share/aurorae/themes/Sweet-Dark".source = ./aurorae/Sweet-Dark;
+  };
+
   programs.plasma = {
     enable = true;
     workspace = {
-      theme = "breeze-dark";
-      colorScheme = "BreezeDark";
+      theme = if dark then "breeze-dark" else "breeze-light";
+      colorScheme = if dark then "Sweet" else "BreezeLight";
       wallpaper = ./black-background.jpg;
+      windowDecorations =
+        if dark then
+          {
+            library = "org.kde.kwin.aurorae.v2";
+            theme = "__aurorae__svg__Sweet-Dark";
+          }
+        else
+          {
+            library = "org.kde.breeze";
+            theme = "Breeze";
+          };
     };
     shortcuts = {
       "ksmserver"."Lock Session" = [

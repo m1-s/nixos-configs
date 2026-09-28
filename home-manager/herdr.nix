@@ -1,6 +1,12 @@
-{ inputs, pkgs, ... }:
+{
+  config,
+  inputs,
+  pkgs,
+  ...
+}:
 let
   inherit (pkgs.stdenv.hostPlatform) system;
+  inherit (config.theme) dark;
 
   herdr = inputs.nixpkgs-unstable.legacyPackages.${system}.herdr;
 
@@ -71,6 +77,11 @@ in
   # which is the only surface listing tabs.
   xdg.configFile."herdr/config.toml".text = ''
     onboarding = false
+
+    # herdr defaults to a dark theme regardless of the host terminal, so its
+    # sidebar and selection backgrounds stay dark on a light palette.
+    [theme]
+    name = "${if dark then "catppuccin" else "catppuccin-latte"}"
 
     [ui]
     agent_panel_sort = "spaces"

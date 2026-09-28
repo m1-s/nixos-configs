@@ -1,6 +1,12 @@
-{ inputs, pkgs, ... }:
+{
+  config,
+  inputs,
+  pkgs,
+  ...
+}:
 let
   inherit (pkgs.stdenv.hostPlatform) system;
+  inherit (config.theme) dark;
 in
 {
   programs.ghostty = {
@@ -31,8 +37,33 @@ in
         "15=#dcdfe4"
       ];
     };
+    # sweet's hues darkened until they carry on a light background
+    themes.sweet-light = {
+      background = "#f5f6f8";
+      foreground = "#2f3547";
+      cursor-color = "#2f3547";
+      selection-background = "#dfe3ea";
+      palette = [
+        "0=#3a3f4b"
+        "1=#c01742"
+        "2=#1f8f4d"
+        "3=#9a7b00"
+        "4=#1f5fc0"
+        "5=#8b21ad"
+        "6=#00738a"
+        "7=#4a5163"
+        "8=#3a3f4b"
+        "9=#c01742"
+        "10=#1f8f4d"
+        "11=#9a7b00"
+        "12=#1f5fc0"
+        "13=#8b21ad"
+        "14=#00738a"
+        "15=#4a5163"
+      ];
+    };
     settings = {
-      theme = "sweet";
+      theme = if dark then "sweet" else "sweet-light";
       # ghostty defaults shift+insert to the primary selection, while GTK/Qt
       # apps paste the clipboard from it. Match the apps, so the same key works
       # everywhere for text that was copied rather than mouse selected.

@@ -1,13 +1,22 @@
-{ pkgs, inputs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 let
+  inherit (config.theme) dark;
+
   # Diffs are rendered with syntax highlighting, which paints comments in a mid
   # grey. Against the dark theme's diff backgrounds that grey only reaches a
   # contrast ratio of 1.5:1, so the backgrounds are darkened here. The syntax
-  # colors are not part of the theme and cannot be adjusted.
+  # colors are not part of the theme and cannot be adjusted. The light base
+  # needs no such correction, so it keeps the stock diff colors.
   diffTheme = {
     name = "Sweet diff";
-    base = "dark";
-    overrides = {
+    base = if dark then "dark" else "light";
+    overrides = lib.optionalAttrs dark {
       diffAdded = "rgb(20,52,25)";
       diffAddedDimmed = "rgb(34,44,36)";
       diffAddedWord = "rgb(40,110,64)";
