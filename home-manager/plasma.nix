@@ -1,20 +1,50 @@
-{ config, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   inherit (config.theme) dark;
 in
 {
   imports = [ ./plasma-toolbar.nix ];
 
-  # wayland native clipboard tools. Without wl-copy, programs fall back to
-  # xclip over XWayland, whose selection dies with the short lived xclip
-  # process, so copied text never reaches the wayland clipboard reliably.
-  home.packages = [ pkgs.wl-clipboard ];
+  home = {
+    # wayland native clipboard tools. Without wl-copy, programs fall back to
+    # xclip over XWayland, whose selection dies with the short lived xclip
+    # process, so copied text never reaches the wayland clipboard reliably.
+    packages = [ pkgs.wl-clipboard ];
 
-  # kwin and plasma-apply-colorscheme resolve these by name from the data
-  # dirs, so both have to be on disk before the workspace can select them.
-  home.file = {
-    ".local/share/color-schemes/Sweet.colors".source = ./sweet.colors;
-    ".local/share/aurorae/themes/Sweet-Dark".source = ./aurorae/Sweet-Dark;
+    # kwin and plasma-apply-colorscheme resolve these by name from the data
+    # dirs, so both have to be on disk before the workspace can select them.
+    file = {
+      ".local/share/color-schemes/Sweet.colors".source = ./sweet.colors;
+      ".local/share/aurorae/themes/Sweet-Dark".source = ./aurorae/Sweet-Dark;
+    };
+
+    activation.applyPlasmaToSession =
+      lib.hm.dag.entryAfter
+        [
+          "reloadSystemd"
+          "configure-plasma"
+        ]
+        ''
+          if ${pkgs.systemd}/bin/systemctl --user is-active --quiet plasma-workspace.target; then
+            run ${pkgs.systemd}/bin/systemctl --user start plasma-manager-apply.service
+          fi
+        '';
+  };
+
+  systemd.user.services.plasma-manager-apply = {
+    Unit = {
+      Description = "Apply plasma-manager settings to the running session";
+      After = [ "plasma-workspace.target" ];
+    };
+    Service = {
+      Type = "oneshot";
+      ExecStart = "${config.xdg.dataHome}/plasma-manager/run_all.sh";
+    };
   };
 
   programs.plasma = {
