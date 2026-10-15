@@ -97,7 +97,15 @@ let
   ];
 in
 {
-  home.shellAliases.claude = "claude --dangerously-skip-permissions";
+  programs.zsh.initContent = lib.mkOrder 551 ''
+    claude() {
+      if [ -f flake.nix ] && [ -z "$IN_NIX_SHELL" ] && nix develop --quiet --command true >/dev/null 2>&1; then
+        nix develop --quiet --command claude --dangerously-skip-permissions "$@"
+      else
+        command claude --dangerously-skip-permissions "$@"
+      fi
+    }
+  '';
 
   home.file.".claude/themes/sweet-diff.json".text = builtins.toJSON diffTheme;
 
@@ -173,6 +181,9 @@ in
         with `nix-shell -p <tool>`.
       - To build on a remote machine, use `nbr <machine> <flake-ref>` (nix build remote).
         Example: `nbr myMachine .#foo`
+      - In a flake repo you are always started inside its dev shell, so its
+        tools are already on PATH. Never wrap commands in `nix develop` or
+        `nix-shell` for them, and do not start a dev shell yourself.
 
       ## Coding
 
