@@ -28,6 +28,8 @@ in
         [
           "reloadSystemd"
           "configure-plasma"
+          "installPackages"
+          "onFilesChange"
         ]
         ''
           if ${pkgs.systemd}/bin/systemctl --user is-active --quiet plasma-workspace.target; then
@@ -43,6 +45,7 @@ in
     };
     Service = {
       Type = "oneshot";
+      ExecStartPre = "-${pkgs.kdePackages.kservice}/bin/kbuildsycoca6 --noincremental";
       ExecStart = "${config.xdg.dataHome}/plasma-manager/run_all.sh";
     };
   };
