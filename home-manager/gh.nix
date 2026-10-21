@@ -2,7 +2,8 @@
 let
   inherit (pkgs.stdenv.hostPlatform) system;
 
-  # gh-image's go.mod requires a Go newer than the pinned channel provides.
+  # gh-image's go.mod requires a Go newer than the pinned channel provides, and
+  # the channel's gh-stack is several releases behind upstream.
   unstable = inputs.nixpkgs-unstable.legacyPackages.${system};
 
   # Uploads screenshots to GitHub; the gh CLI has no API for attachments.
@@ -23,9 +24,14 @@ let
   };
 in
 {
+  home.sessionVariables.GH_STACK_NO_UPDATE_NOTIFIER = "1";
+
   programs.gh = {
     enable = true;
-    extensions = [ gh-image ];
+    extensions = [
+      gh-image
+      unstable.gh-stack
+    ];
     settings = {
       git_protocol = "https";
       aliases.co = "pr checkout";
