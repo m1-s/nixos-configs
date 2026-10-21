@@ -20,7 +20,7 @@ in
   ];
 
   home.shellAliases = rec {
-    nrs = "sudo nixos-rebuild switch --flake ${configDir} && exec zsh";
+    nrs = "sudo nixos-rebuild switch --flake ${configDir} --log-format internal-json -v |& nom --json && exec zsh";
     nrt = "sudo nixos-rebuild test --flake ${configDir} && exec zsh";
     nru = "nix flake update --flake ${configDir} && ${nrs}";
     gacp = "gaa && gcn! && gpf";
