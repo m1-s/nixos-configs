@@ -115,6 +115,10 @@ in
     workspace_picker = "prefix+s"
     goto = [ "prefix+w", "prefix+g" ]
     settings = "prefix+shift+s"
+    previous_agent = "prefix+p"
+    next_agent = "prefix+n"
+    previous_tab = "prefix+alt+p"
+    next_tab = "prefix+alt+n"
   '';
 
   programs.claude-code = {
