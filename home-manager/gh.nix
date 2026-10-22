@@ -12,7 +12,8 @@ let
     pname = "gh-image";
     version = "1.2.0";
     src = inputs.gh-image-skill;
-    vendorHash = "sha256-TzVyLcfpa3eN9bHQJnuPuGeiOgxYbBurFdKq0EfpJL4=";
+    proxyVendor = true;
+    vendorHash = "sha256-RkxNYMDYDen43+5Kg66FHfxaiGSTJeSynkhJNjhnhX8=";
     ldflags = [
       "-s"
       "-w"
