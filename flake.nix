@@ -23,9 +23,6 @@
     claude-code-plugins.url = "github:anthropics/claude-code";
     claude-code-plugins.flake = false;
 
-    gh-image-skill.url = "github:drogers0/gh-image";
-    gh-image-skill.flake = false;
-
     # Keeps its own nixpkgs: its packages need a newer one than the pins here.
     llm-agents.url = "github:numtide/llm-agents.nix";
 

@@ -133,10 +133,11 @@ in
         different output, a flow that now completes, an error that no longer
         appears, a value that is now correct. Ask "could I photograph the
         difference?", and if yes, screenshots are required content. Never omit
-        them, and never substitute a prose description of the change. Use the
-        github-image-upload skill to upload them. Lay out before/after
-        screenshots side by side, in a two-column markdown table with "Before"
-        and "After" headers. That table is required structure, so build it even
+        them, and never substitute a prose description of the change. Upload
+        them with `gh pr edit --attach './after.png#alt text'`, which rewrites
+        a matching reference in the body to the uploaded asset. Lay out
+        before/after screenshots side by side, in a two-column markdown table
+        with "Before" and "After" headers. That table is required structure, so build it even
         when a table would otherwise look excessive. If the before state is
         genuinely unreachable, include the after shot alone and say in one line
         why there is no before.
@@ -147,10 +148,6 @@ in
         state, never overwrite my changes.
       - gh extensions are installed declaratively in home-manager/gh.nix. Never
         run `gh extension install`; if an extension is missing, add it there.
-      - `gh image` authenticates with the github.com `user_session` browser
-        cookie, which grants full account access. Never run `gh image
-        extract-token` or `check-token`, and never print that cookie's value
-        into a response, file, or commit.
       - After creating a PR, watch the CI status with gh pr --watch --fail-fast.
         If it fails, create a fix, amend & force push it until the CI succeeds.
       - When watching a CI run and it exits immediately after the push, the
@@ -222,8 +219,6 @@ in
       '';
 
       github-pr-review = "${inputs.claude-git-pr-skill}/github-pr-review/skills/github-pr-review/SKILL.md";
-
-      github-image-upload = "${inputs.gh-image-skill}/skills/github-image-upload/SKILL.md";
     };
 
     plugins = [ "${inputs.claude-code-plugins}/plugins/frontend-design" ];

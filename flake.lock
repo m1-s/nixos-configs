@@ -181,22 +181,6 @@
         "type": "github"
       }
     },
-    "gh-image-skill": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1788905252,
-        "narHash": "sha256-FqsenZoJ2ANRVYysx75AMiecJVqeI9sLpxiXMPiFx1s=",
-        "owner": "drogers0",
-        "repo": "gh-image",
-        "rev": "ee796f9c58c5af4b13fed4de478eb78910c19b3a",
-        "type": "github"
-      },
-      "original": {
-        "owner": "drogers0",
-        "repo": "gh-image",
-        "type": "github"
-      }
-    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -381,7 +365,6 @@
         "claude-code-plugins": "claude-code-plugins",
         "claude-git-pr-skill": "claude-git-pr-skill",
         "feedback": "feedback",
-        "gh-image-skill": "gh-image-skill",
         "home-manager": "home-manager",
         "llm-agents": "llm-agents",
         "nixos-wsl": "nixos-wsl",
