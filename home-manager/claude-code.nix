@@ -232,6 +232,7 @@ in
         CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY = "1";
       };
       alwaysThinkingEnabled = true;
+      idleCompaction = false;
       outputStyle = "Concise";
       theme = "custom:sweet-diff";
       tui = "fullscreen";
