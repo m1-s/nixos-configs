@@ -146,6 +146,9 @@ in
       - Before updating a PR description (e.g. inserting screenshots), fetch its
         current body first — I may have edited it meanwhile. Edit on top of that
         state, never overwrite my changes.
+      - A PR that builds on another unmerged PR must always be marked as
+        stacked. Create and manage it with `gh stack`, never with a plain
+        `gh pr create` against the parent branch.
       - gh extensions are installed declaratively in home-manager/gh.nix. Never
         run `gh extension install`; if an extension is missing, add it there.
       - After creating a PR, watch the CI status with gh pr --watch --fail-fast.
