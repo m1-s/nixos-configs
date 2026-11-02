@@ -164,6 +164,8 @@ in
         apply it's fix automatically so you only have to stage it. If a linting hook
         fails, it may not be able to apply the fix automatically so you need to fix
         it.
+      - Never skip pre-commit hooks (`--no-verify`). Fix the hlint/format errors
+        instead.
       - You have the current git worktree to yourself, but other agents may be
         working in sibling worktrees of the same repository at the same time.
         Only the working tree and index are per-worktree; the stash, branches,
