@@ -156,6 +156,9 @@ in
       - When watching a CI run and it exits immediately after the push, the
         branch most likely conflicts with master. Rebase on master, force push
         and watch the new run.
+      - When watching CI, wait until checks are registered. If `gh pr checks`
+        reports 'no checks reported', retry for up to 2 minutes before treating
+        it as a result.
       - When creating a commit, never use --no-edit. Repos run formatters and
         linters as pre-commit hooks. If a formatting hook fails, it will usually
         apply it's fix automatically so you only have to stage it. If a linting hook
