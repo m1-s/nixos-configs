@@ -122,7 +122,7 @@ in
   '';
 
   programs.claude-code = {
-    skills.herdr = "${herdr}/share/herdr/skills/herdr/SKILL.md";
+    skills.herdr = "${herdr}/share/skills/herdr/herdr/SKILL.md";
 
     settings.hooks = {
       # Syncing on SessionStart is what clears a stale topic promptly: /clear
