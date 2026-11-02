@@ -13,14 +13,6 @@ Aliases (defined in `home-manager/default.nix`) target the live checkout at `~/r
 - `nru` — `nix flake update` then `nrs`
 - `nbr <machine> <flake-ref>` — build a flake ref on a remote builder (e.g. `nbr tower .#nixosConfigurations.tower.config.system.build.toplevel`)
 
-Build a host without switching (use a pueue group per the global instructions, this is slow):
-
-```bash
-nix build .#nixosConfigurations.thinkbook.config.system.build.toplevel
-```
-
-Lint / format runs as pre-commit hooks (configured in `flake.nix` `checks.pre-commit-check`): `nixfmt`, `statix`, `deadnix`. Run all checks with `nix flake check`. The dev shell (`nix develop`, auto-loaded via direnv) installs the hooks. `hosts/thinkbook-hardware-config.nix` is excluded from statix/deadnix.
-
 ## Architecture
 
 `flake.nix` is the single wiring point. Two `nixosConfigurations`:
