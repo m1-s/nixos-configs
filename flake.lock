@@ -50,22 +50,6 @@
         "type": "github"
       }
     },
-    "claude-code-plugins": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1792529187,
-        "narHash": "sha256-pQmSTiITx+5r4+fjRmw189AoEGpg7pFb/bLUfYGStRk=",
-        "owner": "anthropics",
-        "repo": "claude-code",
-        "rev": "49b8c35f8c57493c2f0eba1429ccaa9638ab8712",
-        "type": "github"
-      },
-      "original": {
-        "owner": "anthropics",
-        "repo": "claude-code",
-        "type": "github"
-      }
-    },
     "claude-git-pr-skill": {
       "flake": false,
       "locked": {
@@ -362,7 +346,6 @@
     },
     "root": {
       "inputs": {
-        "claude-code-plugins": "claude-code-plugins",
         "claude-git-pr-skill": "claude-git-pr-skill",
         "feedback": "feedback",
         "home-manager": "home-manager",

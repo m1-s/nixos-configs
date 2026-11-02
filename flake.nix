@@ -20,9 +20,6 @@
     claude-git-pr-skill.url = "github:aidankinzett/claude-git-pr-skill";
     claude-git-pr-skill.flake = false;
 
-    claude-code-plugins.url = "github:anthropics/claude-code";
-    claude-code-plugins.flake = false;
-
     # Keeps its own nixpkgs: its packages need a newer one than the pins here.
     llm-agents.url = "github:numtide/llm-agents.nix";
 
