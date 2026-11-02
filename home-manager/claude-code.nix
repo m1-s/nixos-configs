@@ -231,6 +231,7 @@ in
       };
       alwaysThinkingEnabled = true;
       idleCompaction = false;
+      syncClaudeAiSkills = false;
       outputStyle = "Concise";
       theme = "custom:sweet-diff";
       tui = "fullscreen";
