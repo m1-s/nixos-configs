@@ -31,8 +31,13 @@
     fsType = "ext4";
   };
 
-  boot.initrd.luks.devices."luks-8db39b0a-8764-47c1-a1cb-557b6cc2d17a".device =
-    "/dev/disk/by-uuid/8db39b0a-8764-47c1-a1cb-557b6cc2d17a";
+  boot.initrd.luks.devices."luks-8db39b0a-8764-47c1-a1cb-557b6cc2d17a" = {
+    device = "/dev/disk/by-uuid/8db39b0a-8764-47c1-a1cb-557b6cc2d17a";
+    # dm-crypt workqueues queued writes (~500ms/write vs ~8ms on nvme) -> freezes during heavy ghc/link IO
+    # discards were dropped, so weekly fstrim never trimmed /
+    bypassWorkqueues = true;
+    allowDiscards = true;
+  };
 
   fileSystems."/boot" = {
     device = "/dev/disk/by-uuid/9B61-214D";
